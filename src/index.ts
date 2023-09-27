@@ -54,7 +54,14 @@ function auth(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-app.use('/', auth, (req: Request, res: Response) => {
+app.post('/logout', auth, (req: Request, res: Response) => {
+  req.session.destroy(() => {
+    console.log('session destroyed');
+  });
+  res.send('Logout successful');
+});
+
+app.get('/', auth, (req: Request, res: Response) => {
   return res.sendFile('dashboard.html', {root: viewsDir});
 });
 
