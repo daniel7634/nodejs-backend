@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    This is title
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>
+    Welcome to simple app
+  </h1>
+  <div class="container">
+    <div id="tabs">
+      <button id="signUpTab">Sign up</button>
+      <button id="signInTab">Sign in</button>
+    </div>
+    <div id="signUpContent" style="display: none;">
+      <h3>Sign up</h3>
+      <form id="signupForm">
+        <input type="email" id="email" placeholder="Email" required><br><br>
+        <input type="password" id="password" placeholder="密碼" required><br><br>
+        <input type="password" id="confirmPassword" placeholder="再次輸入密碼" required><br><br>
+        <button type="submit">Sign up</button>
+      </form>
+      <button id="googleAuthButton">Sign up with google</button>
+    </div>
+    <div id="signInContent" style="display: none;">
+      <h3>Sign in</h3>
+      <form id="signinForm">
+        <input type="email" id="emailLogin" placeholder="Email" required><br><br>
+        <input type="password" id="passwordLogin" placeholder="密碼" required><br><br>
+        <button type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const signUpTab = document.getElementById('signUpTab');
+    const signInTab = document.getElementById('signInTab');
+    const signUpContent = document.getElementById('signUpContent');
+    const signInContent = document.getElementById('signInContent');
+    const signupForm = document.getElementById('signupForm');
+    const signinForm = document.getElementById('signinForm');
+    const backBtn = document.getElementById('backBtn');
+
+    signUpTab.addEventListener('click', () => {
+      signUpContent.style.display = 'block';
+      signInContent.style.display = 'none';
+      signUpTab.style.display = 'none';
+      signInTab.style.display = 'none';
+    });
+
+    signInTab.addEventListener('click', () => {
+      signUpContent.style.display = 'none';
+      signInContent.style.display = 'block';
+      signUpTab.style.display = 'none';
+      signInTab.style.display = 'none';
+    });
+
+    const googleAuthButton = document.getElementById('googleAuthButton');
+    googleAuthButton.addEventListener('click', () => {
+      window.location.href = '/auth/google';
+    });
+  </script>
+</body>
+
+</html>
