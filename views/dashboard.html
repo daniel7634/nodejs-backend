@@ -5,17 +5,32 @@
   <title>
     This is title
   </title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
   <h1>
     Welcome to simple app dashboard
   </h1>
-  <button id="logout">Logout</button>
-  <button id="resetPassword">Reset Password</button>
+  <button id="logoutBtn">Logout</button>
+  <button id="resetPasswordBtn">Reset Password</button>
 
   <script>
+    const logoutButton = document.getElementById('logoutBtn');
+    logoutButton.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/logout', {
+          method: 'POST',
+        });
+
+        if (response.ok) {
+          window.location.href = '/';
+        } else {
+          console.error('Logout failed');
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    });
   </script>
 </body>
 
