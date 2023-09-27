@@ -2,6 +2,7 @@ import express, {Request} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
+import bcrypt from 'bcrypt';
 
 const users: {email: string; password: string}[] = [];
 const router = express.Router();
@@ -41,7 +42,10 @@ router.post('/register', async (req: Request<{}, {}, registerBody>, res) => {
       return res.status(400).json({message: 'Email already exists'});
     }
 
-    users.push({email, password: password});
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    users.push({email, password: hashedPassword});
 
     return res.status(201).json({message: 'Registration successful'});
   } catch (error) {
@@ -60,15 +64,12 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({message: 'Invalid email or password'});
     }
 
-    const passwordMatch = password === user.password;
-
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res.status(401).json({message: 'Invalid email or password'});
     }
 
-    console.log(req.session);
     req.session.email = email;
-
     return res.json({message: 'Login successful'});
   } catch (error) {
     console.error(error);
