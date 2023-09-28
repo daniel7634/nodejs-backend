@@ -10,6 +10,7 @@ import {
   loginEmailValidator,
   loginPasswordValidator,
 } from '../validator';
+import {sendVerificationEmail} from '../emailer';
 
 const users: {email: string; password: string}[] = [];
 const router = express.Router();
@@ -61,6 +62,7 @@ router.post(
       const hashedPassword = await bcrypt.hash(postData.password, saltRounds);
 
       users.push({email: postData.email, password: hashedPassword});
+      await sendVerificationEmail(postData.email, 'testtoken');
 
       return res.status(201).json({message: 'Registration successful'});
     } catch (error) {
