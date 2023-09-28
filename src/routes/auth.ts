@@ -1,8 +1,13 @@
-import express, {Request} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
+import {
+  emailValidator,
+  getValidateErrorMsg,
+  passwordValidator,
+} from '../validator';
 
 const users: {email: string; password: string}[] = [];
 const router = express.Router();
@@ -24,35 +29,44 @@ router.get(
   }
 );
 
-interface registerBody {
+function checkValidatorResult(req: Request, res: Response, next: NextFunction) {
+  const validateErrorMsg = getValidateErrorMsg(req);
+  if (validateErrorMsg) {
+    res.status(400).json({msg: validateErrorMsg});
+  } else {
+    next();
+  }
+}
+
+interface RegisterBody {
   email: string;
   password: string;
 }
 
-router.post('/register', async (req: Request<{}, {}, registerBody>, res) => {
-  try {
-    const email = req.body.email.trim();
-    const password = req.body.password.trim();
+router.post(
+  '/register',
+  emailValidator(),
+  passwordValidator(),
+  checkValidatorResult,
+  async (req: Request<{}, {}, RegisterBody>, res) => {
+    try {
+      const postData: RegisterBody = req.body;
+      if (users.find(user => user.email === postData.email)) {
+        return res.status(400).json({message: 'Email already exists'});
+      }
 
-    if (!email || !password) {
-      return res.status(400).json({message: 'Email and password are requred'});
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(postData.password, saltRounds);
+
+      users.push({email: postData.email, password: hashedPassword});
+
+      return res.status(201).json({message: 'Registration successful'});
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({message: 'Internal server error'});
     }
-
-    if (users.find(user => user.email === email)) {
-      return res.status(400).json({message: 'Email already exists'});
-    }
-
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    users.push({email, password: hashedPassword});
-
-    return res.status(201).json({message: 'Registration successful'});
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({message: 'Internal server error'});
   }
-});
+);
 
 router.post('/login', async (req, res) => {
   try {
