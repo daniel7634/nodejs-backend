@@ -70,27 +70,32 @@ router.post(
   }
 );
 
-router.post('/login', loginEmailValidator(), loginPasswordValidator(), async (req, res) => {
-  try {
-    const {email, password} = req.body;
+router.post(
+  '/login',
+  loginEmailValidator(),
+  loginPasswordValidator(),
+  async (req, res) => {
+    try {
+      const {email, password} = req.body;
 
-    const user = users.find(user => user.email === email);
+      const user = users.find(user => user.email === email);
 
-    if (!user) {
-      return res.status(401).json({message: 'Invalid email or password'});
+      if (!user) {
+        return res.status(401).json({message: 'Invalid email or password'});
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({message: 'Invalid email or password'});
+      }
+
+      req.session.email = email;
+      return res.json({message: 'Login successful'});
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({message: 'Internal server error'});
     }
-
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({message: 'Invalid email or password'});
-    }
-
-    req.session.email = email;
-    return res.json({message: 'Login successful'});
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({message: 'Internal server error'});
   }
-});
+);
 
 export default router;
