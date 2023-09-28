@@ -4,9 +4,11 @@ import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import {
-  emailValidator,
+  registerEmailValidator,
   getValidateErrorMsg,
-  passwordValidator,
+  registerPasswordValidator,
+  loginEmailValidator,
+  loginPasswordValidator,
 } from '../validator';
 
 const users: {email: string; password: string}[] = [];
@@ -45,8 +47,8 @@ interface RegisterBody {
 
 router.post(
   '/register',
-  emailValidator(),
-  passwordValidator(),
+  registerEmailValidator(),
+  registerPasswordValidator(),
   checkValidatorResult,
   async (req: Request<{}, {}, RegisterBody>, res) => {
     try {
@@ -68,7 +70,7 @@ router.post(
   }
 );
 
-router.post('/login', async (req, res) => {
+router.post('/login', loginEmailValidator(), loginPasswordValidator(), async (req, res) => {
   try {
     const {email, password} = req.body;
 
