@@ -17,7 +17,7 @@ export async function sendVerificationEmail(to: string, token: string) {
     text: `
     Thanks for signing up with Simple App! You must follow this link of registration to activate your account:
     
-    http://${process.env.DOMAIN}:${process.env.PORT}/auth/accept/${token}`,
+    http://${process.env.DOMAIN}:${process.env.PORT}/auth/accept/?token=${token}`,
   };
 
   try {

@@ -9,10 +9,11 @@ import {
   registerPasswordValidator,
   loginEmailValidator,
   loginPasswordValidator,
+  acceptDataValidator,
 } from '../validator';
 import {sendVerificationEmail} from '../emailer';
+import {acceptRegistration, createUserWithToken, getUser} from '../repo';
 
-const users: {email: string; password: string}[] = [];
 const router = express.Router();
 
 router.get(
@@ -41,7 +42,7 @@ function checkValidatorResult(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-interface RegisterBody {
+interface RegisterPostData {
   email: string;
   password: string;
 }
@@ -51,20 +52,22 @@ router.post(
   registerEmailValidator(),
   registerPasswordValidator(),
   checkValidatorResult,
-  async (req: Request<{}, {}, RegisterBody>, res) => {
+  async (req: Request<{}, {}, RegisterPostData>, res) => {
     try {
-      const postData: RegisterBody = req.body;
-      if (users.find(user => user.email === postData.email)) {
+      const postData: RegisterPostData = req.body;
+
+      const user = await getUser(postData.email);
+      if (user) {
         return res.status(400).json({message: 'Email already exists'});
       }
 
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(postData.password, saltRounds);
 
-      users.push({email: postData.email, password: hashedPassword});
-      await sendVerificationEmail(postData.email, 'testtoken');
+      await createUserWithToken(postData.email, hashedPassword, 'testtoken'); // TODO: token
+      // await sendVerificationEmail(postData.email, 'testtoken'); // TODO: use queue
 
-      return res.status(201).json({message: 'Registration successful'});
+      return res.status(201).json({message: 'Register successful'});
     } catch (error) {
       console.error(error);
       return res.status(500).json({message: 'Internal server error'});
@@ -72,27 +75,65 @@ router.post(
   }
 );
 
+interface LoginPostData {
+  email: string;
+  password: string;
+}
+
 router.post(
   '/login',
   loginEmailValidator(),
   loginPasswordValidator(),
-  async (req, res) => {
+  checkValidatorResult,
+  async (req: Request<{}, {}, LoginPostData>, res: Response) => {
     try {
-      const {email, password} = req.body;
+      const postData: LoginPostData = req.body;
 
-      const user = users.find(user => user.email === email);
-
-      if (!user) {
+      const user = await getUser(postData.email);
+      if (!user || !user.password) {
         return res.status(401).json({message: 'Invalid email or password'});
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
+      const passwordMatch = await bcrypt.compare(
+        postData.password,
+        user.password
+      );
       if (!passwordMatch) {
         return res.status(401).json({message: 'Invalid email or password'});
       }
 
-      req.session.email = email;
-      return res.json({message: 'Login successful'});
+      if (!user.isVerified) {
+        return res.send('Check verification in your email box');
+      } else {
+        req.session.email = user.email;
+        return res.json({message: 'Login successful'});
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({message: 'Internal server error'});
+    }
+  }
+);
+
+interface AcceptQueryData {
+  token?: string;
+}
+
+router.get(
+  '/accept',
+  acceptDataValidator(),
+  checkValidatorResult,
+  async (req: Request<{}, {}, {}, AcceptQueryData>, res: Response) => {
+    try {
+      const queryData: AcceptQueryData = req.query;
+      if (queryData.token) {
+        const user = await acceptRegistration(queryData.token);
+        if (user) {
+          req.session.email = user.email;
+          return res.redirect('/');
+        }
+      }
+      return res.send('Email verification has expired');
     } catch (error) {
       console.error(error);
       return res.status(500).json({message: 'Internal server error'});
