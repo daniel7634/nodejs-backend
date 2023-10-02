@@ -1,18 +1,17 @@
-import express, {Request, Response, NextFunction} from 'express';
+import express, {Request, Response} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import bcrypt from 'bcrypt';
 import {
   registerEmailValidator,
-  getValidateErrorMsg,
   registerPasswordValidator,
   loginEmailValidator,
   loginPasswordValidator,
   acceptDataValidator,
 } from '../validators/authValidator';
-import {sendVerificationEmail} from '../emailer';
 import {acceptRegistration, createUserWithToken, getUser} from '../repo';
+import {checkValidatorResult} from './util';
 
 const router = express.Router();
 
@@ -32,15 +31,6 @@ router.get(
     res.redirect('/');
   }
 );
-
-function checkValidatorResult(req: Request, res: Response, next: NextFunction) {
-  const validateErrorMsg = getValidateErrorMsg(req);
-  if (validateErrorMsg) {
-    res.status(400).json({msg: validateErrorMsg});
-  } else {
-    next();
-  }
-}
 
 interface RegisterPostData {
   email: string;

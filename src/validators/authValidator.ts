@@ -1,5 +1,4 @@
-import {Request} from 'express';
-import {body, validationResult, query} from 'express-validator';
+import {body, query} from 'express-validator';
 
 export const registerEmailValidator = () =>
   body('email')
@@ -36,11 +35,3 @@ export const loginPasswordValidator = () =>
 
 export const acceptDataValidator = () =>
   query('token').trim().notEmpty().withMessage('Token is required');
-
-export function getValidateErrorMsg(req: Request): string {
-  const result = validationResult(req);
-  if (!result.isEmpty()) {
-    return result.array()[0].msg; // now only return the first error message immediately
-  }
-  return '';
-}
