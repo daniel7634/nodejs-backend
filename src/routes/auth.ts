@@ -10,7 +10,7 @@ import {
   loginEmailValidator,
   loginPasswordValidator,
   acceptDataValidator,
-} from '../validator';
+} from '../validators/authValidator';
 import {sendVerificationEmail} from '../emailer';
 import {acceptRegistration, createUserWithToken, getUser} from '../repo';
 
