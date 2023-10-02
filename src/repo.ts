@@ -42,6 +42,10 @@ export async function getUser(email: string): Promise<User | null> {
   return user;
 }
 
+export async function isUserVerified(email: string): Promise<Boolean> {
+  return (await prisma.user.count({where: {email, isVerified: true}})) === 1;
+}
+
 export async function acceptRegistration(token: string): Promise<User | null> {
   const user = await prisma.user.findFirst({
     where: {
@@ -67,4 +71,15 @@ export async function acceptRegistration(token: string): Promise<User | null> {
   } else {
     return null;
   }
+}
+
+export async function updateUserName(
+  email: string,
+  name: string
+): Promise<User | null> {
+  const user = await prisma.user.update({
+    where: {email},
+    data: {name},
+  });
+  return user;
 }

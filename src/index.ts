@@ -7,6 +7,7 @@ import 'dotenv/config';
 import session from 'express-session';
 
 import authRouter from './routes/auth';
+import userRouter from './routes/user';
 import {createGoogleUserIfNotExist, getUser} from './repo';
 
 const app = express();
@@ -53,6 +54,7 @@ app.use(passport.initialize());
 app.use(express.json());
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 async function auth(req: Request, res: Response, next: NextFunction) {
   if (req.session.email) {
