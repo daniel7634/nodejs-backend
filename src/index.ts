@@ -7,6 +7,8 @@ import 'dotenv/config';
 import session from 'express-session';
 
 import authRouter from './routes/auth';
+import userRouter from './routes/user';
+import {createGoogleUserIfNotExist, getUser} from './repo';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -35,22 +37,39 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       callbackURL: `http://${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`,
     },
-    (accessToken, refreshToken, profile, cb) => {
-      // TODO: store user data to database
-      return cb(null, profile);
+    async (accessToken, refreshToken, profile: GoogleStrategy.Profile, cb) => {
+      if (!profile.emails) {
+        return cb(new Error('There is no email'), profile);
+      } else {
+        await createGoogleUserIfNotExist(
+          profile.displayName,
+          profile.emails[0].value
+        );
+        return cb(null, profile);
+      }
     }
   )
 );
 app.use(passport.initialize());
+app.use(express.json());
 
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
-function auth(req: Request, res: Response, next: NextFunction) {
+async function auth(req: Request, res: Response, next: NextFunction) {
   if (req.session.email) {
-    // TODO: check email in database
-    next();
+    const user = await getUser(req.session.email);
+    if (user) {
+      if (user.isVerified) {
+        next();
+      } else {
+        res.send('Check verification in your email box');
+      }
+    } else {
+      res.sendFile('login.html', {root: viewsDir});
+    }
   } else {
-    return res.sendFile('login.html', {root: viewsDir});
+    res.sendFile('login.html', {root: viewsDir});
   }
 }
 
