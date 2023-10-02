@@ -83,3 +83,14 @@ export async function updateUserName(
   });
   return user;
 }
+
+export async function updateUserPassword(
+  email: string,
+  password: string
+): Promise<User | null> {
+  const user = await prisma.user.update({
+    where: {email},
+    data: {password},
+  });
+  return user;
+}

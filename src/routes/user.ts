@@ -1,6 +1,15 @@
 import express, {Request, Response, NextFunction} from 'express';
-import {isUserVerified, updateUserName} from '../repo';
-import {profileNameValidator} from '../validators/userValidator';
+import bcrypt from 'bcrypt';
+import {
+  getUser,
+  isUserVerified,
+  updateUserName,
+  updateUserPassword,
+} from '../repo';
+import {
+  profileNameValidator,
+  resetPasswordValidators,
+} from '../validators/userValidator';
 import {checkValidatorResult} from './util';
 
 const router = express.Router();
@@ -31,6 +40,47 @@ router.post(
     } catch (error) {
       console.error(error);
       rep.status(400).json({message: 'Update failed'});
+    }
+  }
+);
+
+interface ResetPasswordPostData {
+  oldPassword: string;
+  newPassword: string;
+}
+
+router.post(
+  '/reset-password',
+  resetPasswordValidators,
+  checkValidatorResult,
+  async (req: Request<{}, {}, ResetPasswordPostData>, res: Response) => {
+    try {
+      const postData: ResetPasswordPostData = req.body;
+
+      const user = await getUser(req.session.email as string);
+      if (!user || !user.password) {
+        return res.status(401).json({message: 'Invalid email or password'});
+      }
+
+      const passwordMatch = await bcrypt.compare(
+        postData.oldPassword,
+        user.password
+      );
+      if (!passwordMatch) {
+        return res.status(401).json({message: 'Invalid email or password'});
+      }
+
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(
+        postData.newPassword,
+        saltRounds
+      );
+
+      await updateUserPassword(req.session.email as string, hashedPassword);
+      return res.json({message: 'Update successful'});
+    } catch (error) {
+      console.error(error);
+      return res.status(400).json({message: 'Update failed'});
     }
   }
 );

@@ -13,7 +13,7 @@ export const registerPasswordValidator = () =>
   body('password')
     .trim()
     .notEmpty()
-    .withMessage('Password address is required')
+    .withMessage('Password is required')
     .bail()
     .isStrongPassword({
       minLength: 8,
