@@ -1,3 +1,4 @@
+import {v4 as uuidv4} from 'uuid';
 import express, {Request, Response} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
@@ -12,6 +13,7 @@ import {
 } from '../validators/authValidator';
 import {acceptRegistration, createUserWithToken, getUser} from '../repo';
 import {checkValidatorResult} from './util';
+import {sendVerificationEmail} from '../emailer';
 
 const router = express.Router();
 
@@ -54,8 +56,9 @@ router.post(
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(postData.password, saltRounds);
 
-      await createUserWithToken(postData.email, hashedPassword, 'testtoken'); // TODO: token
-      // await sendVerificationEmail(postData.email, 'testtoken'); // TODO: use queue
+      const token = uuidv4();
+      await createUserWithToken(postData.email, hashedPassword, token);
+      sendVerificationEmail(postData.email, token);
 
       return res.status(201).json({message: 'Register successful'});
     } catch (error) {
