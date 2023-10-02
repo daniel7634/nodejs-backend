@@ -24,6 +24,7 @@
     "@types/nodemailer": "^6.4.11",
     "@types/passport": "^1.0.13",
     "@types/passport-google-oauth20": "^2.0.12",
+    "@types/uuid": "^9.0.4",
     "gts": "^5.0.1",
     "prisma": "^5.3.1",
     "typescript": "^5.2.2"
@@ -37,6 +38,7 @@
     "express-validator": "^7.0.1",
     "nodemailer": "^6.9.5",
     "passport": "^0.6.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "uuid": "^9.0.1"
   }
 }
