@@ -15,6 +15,9 @@ export const registerPasswordValidator = () =>
     .notEmpty()
     .withMessage('Password is required')
     .bail()
+    .isLength({max: 30})
+    .withMessage('Password must not exceed 30 characters')
+    .bail()
     .isStrongPassword({
       minLength: 8,
       minLowercase: 1,

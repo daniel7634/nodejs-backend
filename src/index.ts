@@ -5,6 +5,8 @@ import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import session from 'express-session';
+import * as sessionNameSpace from 'express-session';
+import MySQLStoreFactory from 'express-mysql-session';
 
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
@@ -13,9 +15,37 @@ import {createGoogleUserIfNotExist, getUser} from './repo';
 const app = express();
 const port = process.env.PORT || 3000;
 const viewsDir = path.join(__dirname, '../views');
+const MySQLStore = MySQLStoreFactory(sessionNameSpace);
+const options = {
+  host: process.env.DOMAIN,
+  port: parseInt(process.env.DATABASE_PORT as string, 10),
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  schema: {
+    tableName: 'sessions',
+    columnNames: {
+      session_id: 'session_id',
+      expires: 'expires',
+      data: 'data',
+    },
+  },
+};
+
+const sessionMySQLStore = new MySQLStore(options);
+sessionMySQLStore
+  .onReady()
+  .then(() => {
+    console.log('MySQLStore ready');
+  })
+  .catch(error => {
+    // Something went wrong.
+    console.error(error);
+  });
 
 // session
 declare module 'express-session' {
+  // type for req.session
   interface SessionData {
     email: string;
   }
@@ -24,8 +54,9 @@ declare module 'express-session' {
 app.use(
   session({
     secret: process.env.SESSION_SECRET as string,
-    saveUninitialized: false,
-    resave: true,
+    store: sessionMySQLStore,
+    resave: false,
+    saveUninitialized: true,
   })
 );
 

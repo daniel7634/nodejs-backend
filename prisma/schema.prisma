@@ -11,18 +11,34 @@ datasource db {
 }
 
 model User {
-  id         Int     @id @default(autoincrement())
-  name       String?
-  email      String  @unique
-  password   String?
-  isVerified Boolean @default(false)
+  id         Int      @id @default(autoincrement())
+  name       String?  @db.VarChar(30)
+  email      String   @unique @db.VarChar(50)
+  password   String?  @db.Char(60)
+  isVerified Boolean  @default(false) @map("is_verified")
+  loginCount Int      @default(0) @map("login_count")
+  createdAt  DateTime @default(now()) @map("created_at")
 
   registration UserRegistration?
+
+  @@map("users")
 }
 
 model UserRegistration {
   id     Int    @id @default(autoincrement())
   user   User   @relation(fields: [userId], references: [id])
-  userId Int    @unique
-  token  String
+  userId Int    @unique @map("user_id")
+  token  String @db.Char(36)
+
+  @@map("user_registrations")
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  sessionId String   @map("session_id") @db.VarChar(128)
+  expires   Int
+  data      String   @db.TinyText
+  updatedAt DateTime @updatedAt @default(now())
+
+  @@map("sessions")
 }
