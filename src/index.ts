@@ -17,7 +17,7 @@ const port = process.env.PORT || 3000;
 const viewsDir = path.join(__dirname, '../views');
 const MySQLStore = MySQLStoreFactory(sessionNameSpace);
 const options = {
-  host: process.env.DOMAIN,
+  host: process.env.DATABASE_HOST,
   port: parseInt(process.env.DATABASE_PORT as string, 10),
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
