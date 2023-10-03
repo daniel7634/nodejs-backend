@@ -6,6 +6,9 @@ export const registerEmailValidator = () =>
     .notEmpty()
     .withMessage('Email address is required')
     .bail()
+    .isLength({max: 50})
+    .withMessage('Email must not exceed 50 characters')
+    .bail()
     .isEmail()
     .withMessage('Not a valid email address');
 
