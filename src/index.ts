@@ -66,7 +66,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: `http://${process.env.DOMAIN}:${process.env.PORT}/auth/google/callback`,
+      callbackURL: `${process.env.HOST}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile: GoogleStrategy.Profile, cb) => {
       if (!profile.emails) {
