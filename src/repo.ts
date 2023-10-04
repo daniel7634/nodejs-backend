@@ -42,8 +42,25 @@ export async function getUser(email: string): Promise<User | null> {
   return user;
 }
 
-export async function isUserVerified(email: string): Promise<Boolean> {
+export async function isUserVerified(email: string): Promise<boolean> {
   return (await prisma.user.count({where: {email, isVerified: true}})) === 1;
+}
+
+export async function getRegistrationToken(
+  email: string
+): Promise<string | null> {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+    include: {
+      registration: true,
+    },
+  });
+  if (user && user.registration) {
+    return user.registration.token;
+  }
+  return null;
 }
 
 export async function acceptRegistration(token: string): Promise<User | null> {

@@ -11,7 +11,12 @@ import {
   loginPasswordValidator,
   acceptDataValidator,
 } from '../validators/authValidator';
-import {acceptRegistration, createUserWithToken, getUser} from '../repo';
+import {
+  acceptRegistration,
+  createUserWithToken,
+  getRegistrationToken,
+  getUser,
+} from '../repo';
 import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
 
@@ -60,6 +65,7 @@ router.post(
       await createUserWithToken(postData.email, hashedPassword, token);
       sendVerificationEmail(postData.email, token);
 
+      req.session.email = postData.email;
       return res.status(201).json({message: 'Register successful'});
     } catch (error) {
       console.error(error);
@@ -133,5 +139,21 @@ router.get(
     }
   }
 );
+
+router.post('/resend-email', async (req: Request, res: Response) => {
+  try {
+    if (req.session.email) {
+      const email: string = req.session.email;
+      const token = await getRegistrationToken(email);
+      if (token) {
+        sendVerificationEmail(email, token);
+      }
+      res.json({msg: 'Resend email successful'});
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: 'Internal server error'});
+  }
+});
 
 export default router;
