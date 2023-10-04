@@ -14,6 +14,8 @@ import {createGoogleUserIfNotExist, getUser} from './repo';
 
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../views')));
 const viewsDir = path.join(__dirname, '../views');
 const MySQLStore = MySQLStoreFactory(sessionNameSpace);
 const options = {
@@ -97,10 +99,10 @@ async function auth(req: Request, res: Response, next: NextFunction) {
         res.send('Check verification in your email box');
       }
     } else {
-      res.sendFile('login.html', {root: viewsDir});
+      res.sendFile('Landing-Page.html', {root: viewsDir});
     }
   } else {
-    res.sendFile('login.html', {root: viewsDir});
+    res.sendFile('Landing-Page.html', {root: viewsDir});
   }
 }
 

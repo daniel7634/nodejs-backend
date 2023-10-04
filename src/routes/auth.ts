@@ -96,7 +96,7 @@ router.post(
       }
 
       if (!user.isVerified) {
-        return res.send('Check verification in your email box');
+        return res.send({message: 'Check verification in your email box'});
       } else {
         req.session.email = user.email;
         return res.json({message: 'Login successful'});
