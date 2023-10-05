@@ -9,7 +9,7 @@ import {
 import {
   profileNameValidator,
   resetPasswordValidators,
-} from '../validators/userValidator';
+} from '../validators/user-validator';
 import {checkValidatorResult} from './util';
 
 const router = express.Router();
