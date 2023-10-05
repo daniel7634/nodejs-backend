@@ -1,0 +1,563 @@
+<!doctype html>
+<html style="font-size: 16px" lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="37, 8k, 85" />
+    <meta name="description" content="" />
+    <title>profile</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen" />
+    <link rel="stylesheet" href="profile.css" media="screen" />
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="jquery-1.9.1.min.js"
+      defer=""
+    ></script>
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="nicepage.js"
+      defer=""
+    ></script>
+    <meta name="generator" content="Nicepage 5.19.2, nicepage.com" />
+    <meta name="referrer" content="origin" />
+    <link
+      id="u-theme-google-font"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i"
+    />
+    <meta name="theme-color" content="#478ac9" />
+    <meta property="og:title" content="profile" />
+    <meta property="og:type" content="website" />
+    <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+    <style>
+      .toast {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        border-radius: 12px;
+        background: #fff;
+        padding: 20px 35px 20px 25px;
+        box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transform: translateX(calc(100% + 30px));
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+      }
+
+      .toast.active {
+        transform: translateX(0%);
+      }
+
+      .toast .toast-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .toast-content .message {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+      }
+
+      .message .text {
+        font-size: 16px;
+        font-weight: 400;
+        color: #666666;
+      }
+
+      .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .toast .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding: 5px;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      .toast .close:hover {
+        opacity: 1;
+      }
+
+      .toast .progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+      }
+
+      .toast .progress:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .toast .error-progress:before {
+        background-color: #f44040;
+      }
+
+      .toast .success-progress:before {
+        background-color: #4070f4;
+      }
+
+      .progress.active:before {
+        animation: progress 3s linear forwards;
+      }
+
+      @keyframes progress {
+        100% {
+          right: 100%;
+        }
+      }
+
+      .toast.active ~ button {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body
+    data-path-to-root="./"
+    class="u-body u-overlap u-overlap-transparent u-xl-mode"
+    data-lang="en"
+  >
+    <section
+      class="u-clearfix u-image u-section-1"
+      id="sec-8192"
+      data-image-width="2000"
+      data-image-height="1333"
+    >
+      <div
+        class="u-container-style u-expanded-width u-grey-60 u-group u-group-1"
+      >
+        <div class="u-container-layout u-container-layout-1">
+          <a
+            href="#"
+            id="logout-btn"
+            class="u-border-1 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-radius-50 u-btn-1"
+            >Logout</a
+          >
+          <a
+            href="/profile"
+            class="u-border-1 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-radius-50 u-btn-2"
+            >Profile</a
+          >
+          <quillbot-extension
+            style="
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              pointer-events: none;
+            "
+          ></quillbot-extension>
+          <quillbot-extension-highlights
+            style="
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              pointer-events: none;
+            "
+          ></quillbot-extension-highlights>
+        </div>
+      </div>
+      <div class="custom-expanded u-tab-links-align-left u-tabs u-tabs-1">
+        <!-- <ul
+          class="u-border-2 u-border-palette-1-base u-spacing-10 u-tab-list u-unstyled"
+          role="tablist"
+        >
+          <li class="u-tab-item" role="presentation">
+            <a
+              class="active u-active-palette-1-base u-button-style u-grey-10 u-tab-link u-text-active-white u-text-black u-tab-link-1"
+              id="link-tab-0da5"
+              href="#tab-0da5"
+              role="tab"
+              >Description</a
+            >
+          </li>
+          <li class="u-tab-item" role="presentation">
+            <a
+              class="u-active-palette-1-base u-button-style u-grey-10 u-tab-link u-text-active-white u-text-black u-tab-link-2"
+              id="link-tab-14b7"
+              href="#tab-14b7"
+              role="tab"
+              aria-controls="tab-14b7"
+              aria-selected="false"
+              >Specifications</a
+            >
+          </li>
+        </ul> -->
+        <div class="u-tab-content">
+          <div
+            class="u-container-style u-tab-active u-tab-pane u-white u-tab-pane-1"
+            id="tab-profile"
+            role="tabpanel"
+            aria-labelledby="link-tab-profile"
+          >
+            <div class="u-container-layout u-container-layout-2">
+              <quillbot-extension
+                style="
+                  position: absolute;
+                  top: 0px;
+                  left: 0px;
+                  pointer-events: none;
+                "
+              ></quillbot-extension>
+              <quillbot-extension-highlights
+                style="
+                  position: absolute;
+                  top: 0px;
+                  left: 0px;
+                  pointer-events: none;
+                "
+              ></quillbot-extension-highlights>
+              <div class="u-align-center u-form u-form-1">
+                <form
+                  action="https://forms.nicepagesrv.com/v2/form/process"
+                  class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
+                  source="email"
+                  name="form"
+                  style="padding: 10px"
+                >
+                  <div class="u-form-group u-form-name">
+                    <label for="name-input" class="u-label">Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter your name"
+                      id="name-input"
+                      name="name"
+                      class="u-input u-input-rectangle"
+                      required=""
+                      value=""
+                    />
+                  </div>
+                  <div class="u-form-email u-form-group">
+                    <label for="email-input" class="u-label">Email</label>
+                    <input
+                      type="email"
+                      id="email-input"
+                      name="email"
+                      class="u-input u-input-rectangle"
+                      value=""
+                      disabled
+                      style="color: grey"
+                    />
+                  </div>
+                  <div
+                    class="u-align-center u-form-group u-form-submit"
+                    style="margin-bottom: 80px"
+                  >
+                    <!-- <a
+                      href="#"
+                      class="u-btn u-btn-round u-btn-submit u-button-style u-radius-50"
+                      >Save</a
+                    >
+                    <input
+                      type="submit"
+                      value="submit"
+                      class="u-form-control-hidden"
+                    /> -->
+                  </div>
+                </form>
+              </div>
+              <a
+                href="#"
+                id="go-reset-btn"
+                class="u-border-none u-btn u-btn-round u-button-style u-palette-2-base u-radius-50 u-btn-4"
+                >Reset password</a
+              >
+              <a
+                href="/"
+                class="u-border-none u-btn u-btn-round u-button-style u-palette-5-light-2 u-radius-50 u-btn-5"
+                >Back</a
+              >
+              <a
+                href="#"
+                id="save-profile-btn"
+                class="u-border-none u-btn u-btn-round u-button-style u-radius-50 u-btn-6"
+                disabled
+                >Save</a
+              >
+            </div>
+          </div>
+          <div
+            class="u-container-style u-tab-pane u-white u-tab-pane-2"
+            id="tab-reset"
+            role="tabpanel"
+            aria-labelledby="link-tab-reset"
+          >
+            <div class="u-container-layout u-container-layout-3">
+              <div class="u-align-center u-form u-form-2">
+                <form
+                  class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form"
+                  source="email"
+                  name="form"
+                  style="padding: 10px"
+                >
+                  <div
+                    class="u-form-group u-form-name"
+                    style="margin-top: 30px"
+                  >
+                    <label for="old-pwd-input" class="u-label"
+                      >Old password</label
+                    >
+                    <input
+                      type="password"
+                      placeholder="Enter your old password"
+                      id="old-pwd-input"
+                      name="old-password"
+                      class="u-input u-input-rectangle"
+                      required=""
+                    />
+                  </div>
+                  <div class="u-form-group">
+                    <label for="new-pwd-input" class="u-label"
+                      >New password</label
+                    >
+                    <input
+                      type="password"
+                      placeholder="Enter your new password"
+                      id="new-pwd-input"
+                      name="new-password"
+                      class="u-input u-input-rectangle"
+                      required="required"
+                    />
+                  </div>
+                  <div class="u-form-group u-form-group-6">
+                    <label for="new-pwd-input-2" class="u-label"
+                      >Re-enter new password</label
+                    >
+                    <input
+                      type="password"
+                      placeholder="Enter your new password"
+                      id="new-pwd-input-2"
+                      name="new-password-2"
+                      class="u-input u-input-rectangle"
+                    />
+                  </div>
+                  <div
+                    class="u-align-center u-form-group u-form-submit"
+                    style="margin-bottom: 54px"
+                  ></div>
+                </form>
+              </div>
+              <a
+                href="#"
+                id="reset-btn"
+                class="u-border-none u-btn u-btn-round u-button-style u-palette-2-base u-radius-50 u-btn-8"
+                >Save password</a
+              >
+              <a
+                href="/profile"
+                class="u-border-none u-btn u-btn-round u-button-style u-palette-5-light-2 u-radius-50 u-btn-9"
+                >Back</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast error-toast">
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Error</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress error-progress"></div>
+      </div>
+      <div class="toast success-toast">
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Success</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress success-progress"></div>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        await getProfile();
+      });
+
+      const nameInput = document.getElementById('name-input');
+      const emailInput = document.getElementById('email-input');
+      let initialNameValue;
+      let isNameInputChanged = false;
+      async function getProfile() {
+        try {
+          const response = await fetch('/user/profile');
+          const responseJson = await response.json();
+          if (response.ok) {
+            const data = responseJson.data;
+            nameInput.value = data.name;
+            initialNameValue = data.name;
+            emailInput.value = data.email;
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }
+
+      nameInput.addEventListener('input', () => {
+        if (nameInput.value !== initialNameValue) {
+          saveProfileBtn.removeAttribute('disabled');
+          isNameInputChanged = true;
+        } else {
+          saveProfileBtn.setAttribute('disabled', 'disabled');
+          isNameInputChanged = false;
+        }
+      });
+
+      const saveProfileBtn = document.getElementById('save-profile-btn');
+      saveProfileBtn.addEventListener('click', async e => {
+        if (!isNameInputChanged) {
+          return;
+        }
+
+        try {
+          isNameInputChanged = false;
+          initialNameValue = nameInput.value;
+          saveProfileBtn.setAttribute('disabled', 'disabled');
+
+          const response = await fetch('/user/profile', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: nameInput.value,
+            }),
+          });
+          const responseJson = await response.json();
+          if (response.ok) {
+            showSuccessToast(responseJson.message);
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      });
+
+      const tabProfile = document.getElementById('tab-profile');
+      const tabRest = document.getElementById('tab-reset');
+
+      const goRestBtn = document.getElementById('go-reset-btn');
+      goRestBtn.addEventListener('click', async e => {
+        tabProfile.style.display = 'none';
+        tabRest.style.display = 'flex';
+      });
+
+      const logoutBtn = document.getElementById('logout-btn');
+      logoutBtn.addEventListener('click', async e => {
+        try {
+          const response = await fetch('/user/logout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
+          if (response.ok) {
+            window.location.replace('/');
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      });
+
+      const resetBtn = document.getElementById('reset-btn');
+      const oldPwdInput = document.getElementById('old-pwd-input');
+      const newPwdInput = document.getElementById('new-pwd-input');
+      const newPwdInput2 = document.getElementById('new-pwd-input-2');
+      resetBtn.addEventListener('click', async (e) => {
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const newPwdValid = passwordRegex.test(newPwdInput.value);
+        const newPwd2Valid = newPwdInput.value === newPwdInput2.value;
+
+        if (!newPwdValid) {
+          showErrorToast('Password must meet the requirements.');
+          return;
+        }
+        if (!newPwd2Valid) {
+          showErrorToast('Passwords do not match.');
+          return;
+        }
+
+        try {
+          const response = await fetch('/user/reset-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              oldPassword: oldPwdInput.value,
+              newPassword: newPwdInput.value,
+            }),
+          });
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
+          if (response.ok) {
+            showSuccessToast(responseJson.message);
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      });
+
+      const errorToast = document.querySelector('.error-toast');
+      const errorProgress = document.querySelector('.error-progress');
+      const errorToastText = document.querySelector('.error-toast .text-2');
+
+      let timer1, timer2;
+      function showErrorToast(msg) {
+        errorToastText.textContent = msg;
+        errorToast.classList.add('active');
+        errorProgress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          errorToast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          errorProgress.classList.remove('active');
+        }, 3300);
+      }
+
+      const successToast = document.querySelector('.success-toast');
+      const successProgress = document.querySelector('.success-progress');
+      const successToastText = document.querySelector('.success-toast .text-2');
+
+      function showSuccessToast(msg) {
+        successToastText.textContent = msg;
+        successToast.classList.add('active');
+        successProgress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          successToast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          successProgress.classList.remove('active');
+        }, 3300);
+      }
+    </script>
+    </script>
+  </body>
+</html>

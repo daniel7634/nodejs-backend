@@ -18,6 +18,7 @@ import {RouteError} from './error';
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../views')));
 const viewsDir = path.join(__dirname, '../views');
 const MySQLStore = MySQLStoreFactory(sessionNameSpace);
 const options = {
@@ -97,6 +98,14 @@ app.get('/', async (req: Request, res: Response) => {
 
 app.get('/landing', (req: Request, res: Response) => {
   return res.sendFile('landing.html', {root: viewsDir});
+});
+
+app.get('/profile', async (req: Request, res: Response) => {
+  if (req.session.email && (await isUserVerified(req.session.email))) {
+    res.sendFile('profile.html', {root: viewsDir});
+  } else {
+    res.redirect('/landing');
+  }
 });
 
 // Add error handler

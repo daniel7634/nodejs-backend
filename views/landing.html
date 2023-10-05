@@ -1,140 +1,173 @@
-<!DOCTYPE html>
-<html style="font-size: 16px;" lang="en"><head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <meta name="keywords" content="Simple.app">
-    <meta name="description" content="">
+<!doctype html>
+<html style="font-size: 16px" lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="Simple.app" />
+    <meta name="description" content="" />
     <title>Landing Page</title>
-    <link rel="stylesheet" href="nicepage.css" media="screen">
-    <link rel="stylesheet" href="landing.css" media="screen">
-    <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
-    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
-    <meta name="generator" content="Nicepage 5.19.2, nicepage.com">
-    <meta name="referrer" content="origin">
-    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
-    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster:400">
-  
-    <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Landing Page">
-    <meta property="og:type" content="website">
-  <meta data-intl-tel-input-cdn-path="intlTelInput/">
-  <style>
-    .required-label::after {
-        content: " *";
+    <link rel="stylesheet" href="nicepage.css" media="screen" />
+    <link rel="stylesheet" href="landing.css" media="screen" />
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="jquery-1.9.1.min.js"
+      defer=""
+    ></script>
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="nicepage.js"
+      defer=""
+    ></script>
+    <meta name="generator" content="Nicepage 5.19.2, nicepage.com" />
+    <meta name="referrer" content="origin" />
+    <link
+      id="u-theme-google-font"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i"
+    />
+    <link
+      id="u-page-google-font"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Lobster:400"
+    />
+
+    <meta name="theme-color" content="#478ac9" />
+    <meta property="og:title" content="Landing Page" />
+    <meta property="og:type" content="website" />
+    <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+    <style>
+      .required-label::after {
+        content: ' *';
         color: red;
-    }
-
-    .toast {
-      position: absolute;
-      top: 25px;
-      right: 30px;
-      border-radius: 12px;
-      background: #fff;
-      padding: 20px 35px 20px 25px;
-      box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transform: translateX(calc(100% + 30px));
-      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
-    }
-
-    .toast.active {
-      transform: translateX(0%);
-    }
-
-    .toast .toast-content {
-      display: flex;
-      align-items: center;
-    }
-
-    .toast-content .check {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 35px;
-      min-width: 35px;
-      background-color: #4070f4;
-      color: #fff;
-      font-size: 20px;
-      border-radius: 50%;
-    }
-
-    .toast-content .message {
-      display: flex;
-      flex-direction: column;
-      margin: 0 20px;
-    }
-
-    .message .text {
-      font-size: 16px;
-      font-weight: 400;
-      color: #666666;
-    }
-
-    .message .text.text-1 {
-      font-weight: 600;
-      color: #333;
-    }
-
-    .toast .close {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      padding: 5px;
-      cursor: pointer;
-      opacity: 0.7;
-    }
-
-    .toast .close:hover {
-      opacity: 1;
-    }
-
-    .toast .progress {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      height: 3px;
-      width: 100%;
-
-    }
-
-    .toast .progress:before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      height: 100%;
-      width: 100%;
-      background-color: #f44040;
-    }
-
-    .progress.active:before {
-      animation: progress 3s linear forwards;
-    }
-
-    @keyframes progress {
-      100% {
-        right: 100%;
       }
-    }
 
-    .toast.active ~ button {
-      pointer-events: none;
-    }
+      .toast {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        border-radius: 12px;
+        background: #fff;
+        padding: 20px 35px 20px 25px;
+        box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transform: translateX(calc(100% + 30px));
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+      }
 
-  </style>
-</head>
+      .toast.active {
+        transform: translateX(0%);
+      }
+
+      .toast .toast-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .toast-content .message {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+      }
+
+      .message .text {
+        font-size: 16px;
+        font-weight: 400;
+        color: #666666;
+      }
+
+      .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .toast .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding: 5px;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      .toast .close:hover {
+        opacity: 1;
+      }
+
+      .toast .progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+      }
+
+      .toast .progress:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .toast .error-progress:before {
+        background-color: #f44040;
+      }
+
+      .toast .success-progress:before {
+        background-color: #4070f4;
+      }
+
+      .progress.active:before {
+        animation: progress 3s linear forwards;
+      }
+
+      @keyframes progress {
+        100% {
+          right: 100%;
+        }
+      }
+
+      .toast.active ~ button {
+        pointer-events: none;
+      }
+    </style>
+  </head>
   <body data-path-to-root="./" class="u-body u-xl-mode" data-lang="en">
-    <section class="u-align-center u-clearfix u-image u-shading u-section-1" src="" data-image-width="256" data-image-height="256" id="sec-c61a">
+    <section
+      class="u-align-center u-clearfix u-image u-shading u-section-1"
+      src=""
+      data-image-width="256"
+      data-image-height="256"
+      id="sec-c61a"
+    >
       <div class="u-clearfix u-sheet u-sheet-1">
-        <quillbot-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></quillbot-extension>
-        <quillbot-extension-highlights style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></quillbot-extension-highlights>
-        <h1 class="u-custom-font u-font-lobster u-text u-text-default u-text-palette-5-light-3 u-title u-text-1">Simple.app</h1>
-        <div class="u-container-style u-group u-radius-33 u-shape-round u-white u-group-1">
+        <quillbot-extension
+          style="position: absolute; top: 0px; left: 0px; pointer-events: none"
+        ></quillbot-extension>
+        <quillbot-extension-highlights
+          style="position: absolute; top: 0px; left: 0px; pointer-events: none"
+        ></quillbot-extension-highlights>
+        <h1
+          class="u-custom-font u-font-lobster u-text u-text-default u-text-palette-5-light-3 u-title u-text-1"
+        >
+          Simple.app
+        </h1>
+        <div
+          class="u-container-style u-group u-radius-33 u-shape-round u-white u-group-1"
+        >
           <div class="u-container-layout u-container-layout-1">
             <div class="custom-expanded u-tab-links-align-left u-tabs u-tabs-1">
               <ul class="u-tab-list u-unstyled u-tab-list-1" role="tablist">
                 <li class="u-tab-item u-tab-item-1" role="presentation">
-                  <a class="active u-button-style u-tab-link u-tab-link-1" id="link-tab-db12" href="#" role="tab"></a>
+                  <a
+                    class="active u-button-style u-tab-link u-tab-link-1"
+                    id="link-tab-db12"
+                    href="#"
+                    role="tab"
+                  ></a>
                 </li>
                 <!-- <li class="u-tab-item u-tab-item-2" role="presentation">
                   <a class="u-button-style u-tab-link u-tab-link-2" id="link-tab-06b4" href="#tab-06b4" role="tab">Tab 2</a>
@@ -148,35 +181,126 @@
               </ul>
               <div class="u-tab-content">
                 <!-- welcome -->
-                <div class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-active u-tab-pane u-tab-pane-1" id="tab-welcome" role="tabpanel" aria-labelledby="link-tab-db12">
+                <div
+                  class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-active u-tab-pane u-tab-pane-1"
+                  id="tab-welcome"
+                  role="tabpanel"
+                  aria-labelledby="link-tab-db12"
+                >
                   <div class="u-container-layout u-container-layout-2">
-                    <quillbot-extension style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></quillbot-extension>
-                    <quillbot-extension-highlights style="position: absolute; top: 0px; left: 0px; pointer-events: none;"></quillbot-extension-highlights>
-                    <img class="u-image u-image-circle u-image-contain u-preserve-proportions u-image-1" src="images/day.png" alt="" data-image-width="512" data-image-height="512">
-                    <a href="#tab-sign-in" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-2 u-palette-4-dark-1 u-radius-50 u-btn-1 u-tab-link" style="display: table;">Sign In</a>
-                    <a href="#tab-sign-up" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-50 u-btn-2 u-tab-link" style="display: table;">Sign up</a>
+                    <quillbot-extension
+                      style="
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        pointer-events: none;
+                      "
+                    ></quillbot-extension>
+                    <quillbot-extension-highlights
+                      style="
+                        position: absolute;
+                        top: 0px;
+                        left: 0px;
+                        pointer-events: none;
+                      "
+                    ></quillbot-extension-highlights>
+                    <img
+                      class="u-image u-image-circle u-image-contain u-preserve-proportions u-image-1"
+                      src="images/day.png"
+                      alt=""
+                      data-image-width="512"
+                      data-image-height="512"
+                    />
+                    <a
+                      href="#tab-sign-in"
+                      class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-4-dark-2 u-palette-4-dark-1 u-radius-50 u-btn-1 u-tab-link"
+                      style="display: table"
+                      >Sign In</a
+                    >
+                    <a
+                      href="#tab-sign-up"
+                      class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-50 u-btn-2 u-tab-link"
+                      style="display: table"
+                      >Sign up</a
+                    >
                   </div>
                 </div>
                 <!-- sign up -->
-                <div class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane u-tab-pane-2" id="tab-sign-up" role="tabpanel" aria-labelledby="link-tab-sign-up">
+                <div
+                  class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane u-tab-pane-2"
+                  id="tab-sign-up"
+                  role="tabpanel"
+                  aria-labelledby="link-tab-sign-up"
+                >
                   <div class="u-container-layout u-container-layout-3">
                     <div class="u-expanded-width u-form u-form-1">
-                      <form id="sign-up-form" class="u-clearfix u-form-spacing-0 u-form-vertical" source="email" name="form" style="padding: 50px;">
-                        <div class="u-form-email u-form-group u-label-top u-form-group-1">
-                          <label for="sign-up-email" class="u-label required-label">Email</label>
-                          <input type="email" placeholder="Enter your email" id="sign-up-email" name="email" class="u-input u-input-rectangle u-input-1" required="required" maxlength="50">
+                      <form
+                        id="sign-up-form"
+                        class="u-clearfix u-form-spacing-0 u-form-vertical"
+                        source="email"
+                        name="form"
+                        style="padding: 50px"
+                      >
+                        <div
+                          class="u-form-email u-form-group u-label-top u-form-group-1"
+                        >
+                          <label
+                            for="sign-up-email"
+                            class="u-label required-label"
+                            >Email</label
+                          >
+                          <input
+                            type="email"
+                            placeholder="Enter your email"
+                            id="sign-up-email"
+                            name="email"
+                            class="u-input u-input-rectangle u-input-1"
+                            required="required"
+                            maxlength="50"
+                          />
                         </div>
                         <div class="u-form-group u-label-top u-form-group-2">
-                          <label for="sign-up-password" class="u-label required-label">Password</label>
-                          <input type="password" placeholder="Enter your password" id="sign-up-password" name="password" class="u-input u-input-rectangle u-input-2" required="required" maxlength="30">
+                          <label
+                            for="sign-up-password"
+                            class="u-label required-label"
+                            >Password</label
+                          >
+                          <input
+                            type="password"
+                            placeholder="Enter your password"
+                            id="sign-up-password"
+                            name="password"
+                            class="u-input u-input-rectangle u-input-2"
+                            required="required"
+                            maxlength="30"
+                          />
                         </div>
                         <div class="u-form-group u-label-top u-form-group-3">
-                          <label for="sign-up-repeat-password" class="u-label required-label">Repeat Password</label>
-                          <input type="password" placeholder="Enter your password again" id="sign-up-repeat-password" name="re-password" class="u-input u-input-rectangle u-input-3" required="required" maxlength="30">
+                          <label
+                            for="sign-up-repeat-password"
+                            class="u-label required-label"
+                            >Repeat Password</label
+                          >
+                          <input
+                            type="password"
+                            placeholder="Enter your password again"
+                            id="sign-up-repeat-password"
+                            name="re-password"
+                            class="u-input u-input-rectangle u-input-3"
+                            required="required"
+                            maxlength="30"
+                          />
                         </div>
-                        <div class="u-align-left u-form-group u-form-submit u-label-top">
-                          <input type="submit" class="u-form-control-hidden">
-                          <a href="#" id="sign-up-btn" class="u-border-2 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-50 u-btn-3">Sign up</a>
+                        <div
+                          class="u-align-left u-form-group u-form-submit u-label-top"
+                        >
+                          <input type="submit" class="u-form-control-hidden" />
+                          <a
+                            href="#"
+                            id="sign-up-btn"
+                            class="u-border-2 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-2-dark-1 u-palette-2-base u-radius-50 u-btn-3"
+                            >Sign up</a
+                          >
                         </div>
                         <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
@@ -184,27 +308,83 @@
                         <input type="hidden" name="formServices" value="755fa521-3b26-b10d-0727-44e6b4864d4f"> -->
                       </form>
                     </div>
-                    <p class="u-text u-text-default u-text-2">------------------------- or -------------------------</p>
-                    <a href="#" id="google-btn-1" class="u-border-1 u-border-grey-15 u-border-hover-grey-15 u-btn u-btn-round u-button-style u-hover-feature u-hover-grey-5 u-radius-50 u-white u-btn-4"><span class="u-file-icon u-icon u-icon-1"><img src="images/300221.png" alt=""></span>&nbsp;Sign up with google
+                    <p class="u-text u-text-default u-text-2">
+                      ------------------------- or -------------------------
+                    </p>
+                    <a
+                      href="#"
+                      id="google-btn-1"
+                      class="u-border-1 u-border-grey-15 u-border-hover-grey-15 u-btn u-btn-round u-button-style u-hover-feature u-hover-grey-5 u-radius-50 u-white u-btn-4"
+                      ><span class="u-file-icon u-icon u-icon-1"
+                        ><img src="images/300221.png" alt="" /></span
+                      >&nbsp;Sign up with google
                     </a>
                   </div>
                 </div>
                 <!-- sign in -->
-                <div class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane" id="tab-sign-in" role="tabpanel" aria-labelledby="link-tab-sign-in">
+                <div
+                  class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane"
+                  id="tab-sign-in"
+                  role="tabpanel"
+                  aria-labelledby="link-tab-sign-in"
+                >
                   <div class="u-container-layout u-container-layout-4">
                     <div class="u-expanded-width u-form u-form-2">
-                      <form id="sign-in-form" class="u-clearfix u-form-spacing-0 u-form-vertical u-inner-form" source="email" name="form" style="padding: 50px;">
-                        <div class="u-form-email u-form-group u-label-top u-form-group-5">
-                          <label for="sign-in-email" class="u-label required-label">Email</label>
-                          <input type="email" placeholder="Enter your email" id="sign-in-email" name="email" class="u-input u-input-rectangle u-input-4" required="required" maxlength="50">
+                      <form
+                        id="sign-in-form"
+                        class="u-clearfix u-form-spacing-0 u-form-vertical u-inner-form"
+                        source="email"
+                        name="form"
+                        style="padding: 50px"
+                      >
+                        <div
+                          class="u-form-email u-form-group u-label-top u-form-group-5"
+                        >
+                          <label
+                            for="sign-in-email"
+                            class="u-label required-label"
+                            >Email</label
+                          >
+                          <input
+                            type="email"
+                            placeholder="Enter your email"
+                            id="sign-in-email"
+                            name="email"
+                            class="u-input u-input-rectangle u-input-4"
+                            required="required"
+                            maxlength="50"
+                          />
                         </div>
                         <div class="u-form-group u-label-top u-form-group-6">
-                          <label for="sign-in-password" class="u-label required-label">Password</label>
-                          <input type="password" placeholder="Enter your password" id="sign-in-password" name="password" class="u-input u-input-rectangle u-input-5" required="required" maxlength="30">
+                          <label
+                            for="sign-in-password"
+                            class="u-label required-label"
+                            >Password</label
+                          >
+                          <input
+                            type="password"
+                            placeholder="Enter your password"
+                            id="sign-in-password"
+                            name="password"
+                            class="u-input u-input-rectangle u-input-5"
+                            required="required"
+                            maxlength="30"
+                          />
                         </div>
-                        <div class="u-align-left u-form-group u-form-submit u-label-top">
-                          <input type="submit" value="submit" class="u-form-control-hidden">
-                          <a href="#" id="sign-in-btn" class="u-border-2 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-4-dark-2 u-palette-4-dark-1 u-radius-50 u-btn-5">Sign in</a>
+                        <div
+                          class="u-align-left u-form-group u-form-submit u-label-top"
+                        >
+                          <input
+                            type="submit"
+                            value="submit"
+                            class="u-form-control-hidden"
+                          />
+                          <a
+                            href="#"
+                            id="sign-in-btn"
+                            class="u-border-2 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-4-dark-2 u-palette-4-dark-1 u-radius-50 u-btn-5"
+                            >Sign in</a
+                          >
                         </div>
                         <!-- <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
                         <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
@@ -212,17 +392,45 @@
                         <input type="hidden" name="formServices" value="755fa521-3b26-b10d-0727-44e6b4864d4f"> -->
                       </form>
                     </div>
-                    <p class="u-align-center u-text u-text-default u-text-3"> ------------------------- or -------------------------</p>
-                    <a href="#" id="google-btn-2" class="u-border-1 u-border-grey-15 u-border-hover-grey-15 u-btn u-btn-round u-button-style u-hover-feature u-hover-grey-5 u-radius-50 u-white u-btn-6"><span class="u-file-icon u-icon u-icon-2"><img src="images/300221.png" alt=""></span>&nbsp;Sign in with google
+                    <p class="u-align-center u-text u-text-default u-text-3">
+                      ------------------------- or -------------------------
+                    </p>
+                    <a
+                      href="#"
+                      id="google-btn-2"
+                      class="u-border-1 u-border-grey-15 u-border-hover-grey-15 u-btn u-btn-round u-button-style u-hover-feature u-hover-grey-5 u-radius-50 u-white u-btn-6"
+                      ><span class="u-file-icon u-icon u-icon-2"
+                        ><img src="images/300221.png" alt="" /></span
+                      >&nbsp;Sign in with google
                     </a>
                   </div>
                 </div>
                 <!-- resend -->
-                <div class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane u-tab-pane-4" id="tab-resend" role="tabpanel" aria-labelledby="link-tab-resend">
+                <div
+                  class="u-container-style u-opacity u-opacity-85 u-shape-rectangle u-tab-pane u-tab-pane-4"
+                  id="tab-resend"
+                  role="tabpanel"
+                  aria-labelledby="link-tab-resend"
+                >
                   <div class="u-container-layout u-container-layout-5">
-                    <img class="u-image u-image-round u-preserve-proportions u-radius-10 u-image-2" src="images/mail.png" alt="" data-image-width="512" data-image-height="512">
-                    <p class="u-align-center u-text u-text-default u-text-4"> Thank you for registering! Please check your email for a verification link.</p>
-                    <a href="#" id="resend-btn" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-3-dark-1 u-palette-3-base u-radius-50 u-btn-7"> Resend Email Verification</a>
+                    <img
+                      class="u-image u-image-round u-preserve-proportions u-radius-10 u-image-2"
+                      src="images/mail.png"
+                      alt=""
+                      data-image-width="512"
+                      data-image-height="512"
+                    />
+                    <p class="u-align-center u-text u-text-default u-text-4">
+                      Thank you for registering! Please check your email for a
+                      verification link.
+                    </p>
+                    <a
+                      href="#"
+                      id="resend-btn"
+                      class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-3-dark-1 u-palette-3-base u-radius-50 u-btn-7"
+                    >
+                      Resend Email Verification</a
+                    >
                   </div>
                 </div>
               </div>
@@ -231,17 +439,24 @@
         </div>
       </div>
 
-      <div class="toast">
-  
+      <div class="toast error-toast">
         <div class="toast-content">
           <div class="message">
-            <span class="text text-1">Fail</span>
+            <span class="text text-1">Error</span>
             <span class="text text-2"></span>
           </div>
         </div>
-        <div class="progress"></div>
+        <div class="progress error-progress"></div>
       </div>
-
+      <div class="toast success-toast">
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Success</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress success-progress"></div>
+      </div>
     </section>
     <script>
       const tabWelcome = document.getElementById('tab-welcome');
@@ -261,27 +476,31 @@
       const signUpBtn = document.getElementById('sign-up-btn');
       const emailInput = document.getElementById('sign-up-email');
       const passwordInput = document.getElementById('sign-up-password');
-      const confirmPasswordInput = document.getElementById('sign-up-repeat-password');
-      signUpBtn.addEventListener('click', async (e) => {
+      const confirmPasswordInput = document.getElementById(
+        'sign-up-repeat-password'
+      );
+      signUpBtn.addEventListener('click', async e => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex =
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
         const emailValid = emailRegex.test(emailInput.value);
         const passwordValid = passwordRegex.test(passwordInput.value);
-        const confirmPasswordValid = passwordInput.value === confirmPasswordInput.value;
+        const confirmPasswordValid =
+          passwordInput.value === confirmPasswordInput.value;
 
         if (!emailValid) {
-          showToast('Please enter a valid email address.');
+          showErrorToast('Please enter a valid email address.');
           return;
         }
 
         if (!passwordValid) {
-          showToast('Password must meet the requirements.');
+          showErrorToast('Password must meet the requirements.');
           return;
         }
 
         if (!confirmPasswordValid) {
-          showToast('Passwords do not match.');
+          showErrorToast('Passwords do not match.');
           return;
         }
 
@@ -289,21 +508,21 @@
           const response = await fetch('/auth/register', {
             method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               email: emailInput.value,
               password: passwordInput.value,
             }),
           });
-          const responseJson = await response.json()
-          console.log(response)
-          console.log(responseJson)
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
           if (response.ok) {
             tabSignUp.style.display = 'none';
             tabResend.style.display = 'flex';
           } else {
-            showToast(responseJson.error);
+            showErrorToast(responseJson.error);
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -313,14 +532,14 @@
       const signInBtn = document.getElementById('sign-in-btn');
       const signInEmailInput = document.getElementById('sign-in-email');
       const signInPasswordInput = document.getElementById('sign-in-password');
-      signInBtn.addEventListener('click', async (e) => {
+      signInBtn.addEventListener('click', async e => {
         if (!signInEmailInput.value) {
-          showToast('Please enter a valid email address.');
+          showErrorToast('Please enter a valid email address.');
           return;
         }
 
         if (!signInPasswordInput.value) {
-          showToast('Password must meet the requirements.');
+          showErrorToast('Password must meet the requirements.');
           return;
         }
 
@@ -328,25 +547,25 @@
           const response = await fetch('/auth/login', {
             method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               email: signInEmailInput.value,
               password: signInPasswordInput.value,
             }),
           });
-          const responseJson = await response.json()
-          console.log(response)
-          console.log(responseJson)
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
           if (response.ok) {
-            if (responseJson.isVerified) {
-              window.location.replace('/');  
+            if (responseJson.data.isVerified) {
+              window.location.replace('/');
             } else {
               tabSignIn.style.display = 'none';
               tabResend.style.display = 'flex';
             }
           } else {
-            showToast(responseJson.error);
+            showErrorToast(responseJson.error);
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -354,48 +573,64 @@
       });
 
       const resendBtn = document.getElementById('resend-btn');
-      resendBtn.addEventListener('click', async (e) => {
+      resendBtn.addEventListener('click', async e => {
         try {
           const response = await fetch('/auth/resend-email', {
             method: 'POST',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
-          const responseJson = await response.json()
-          console.log(response)
-          console.log(responseJson)
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
           if (response.ok) {
             resendBtn.style.display = 'none';
+            showSuccessToast(responseJson.message);
           } else {
-            showToast(responseJson.error);
+            showErrorToast(responseJson.error);
           }
         } catch (error) {
           console.error('An error occurred:', error);
         }
       });
 
-      const toast = document.querySelector('.toast');
-      const progressBefore = toast.querySelector('.progress:before');
-      const closeIcon = document.querySelector('.close');
-      const progress = document.querySelector('.progress');
-      const toastText2 = document.querySelector('.toast .text-2');
+      const errorToast = document.querySelector('.error-toast');
+      const errorProgress = document.querySelector('.error-progress');
+      const errorToastText = document.querySelector('.error-toast .text-2');
 
       let timer1, timer2;
-
-      function showToast(msg) {
-        toastText2.textContent = msg;
-        toast.classList.add('active');
-        progress.classList.add('active');
+      function showErrorToast(msg) {
+        errorToastText.textContent = msg;
+        errorToast.classList.add('active');
+        errorProgress.classList.add('active');
 
         timer1 = setTimeout(() => {
-          toast.classList.remove('active');
+          errorToast.classList.remove('active');
         }, 3000);
 
         timer2 = setTimeout(() => {
-          progress.classList.remove('active');
+          errorProgress.classList.remove('active');
         }, 3300);
-      };
+      }
 
+      const successToast = document.querySelector('.success-toast');
+      const successProgress = document.querySelector('.success-progress');
+      const successToastText = document.querySelector('.success-toast .text-2');
+
+      function showSuccessToast(msg) {
+        successToastText.textContent = msg;
+        successToast.classList.add('active');
+        successProgress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          successToast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          successProgress.classList.remove('active');
+        }, 3300);
+      }
     </script>
-</body></html>
+  </body>
+</html>

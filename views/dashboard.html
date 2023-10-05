@@ -1,37 +1,345 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>
-    This is title
-  </title>
-</head>
-
-<body>
-  <h1>
-    Welcome to simple app dashboard
-  </h1>
-  <button id="logoutBtn">Logout</button>
-  <button id="resetPasswordBtn">Reset Password</button>
-
-  <script>
-    const logoutButton = document.getElementById('logoutBtn');
-    logoutButton.addEventListener('click', async () => {
-      try {
-        const response = await fetch('/logout', {
-          method: 'POST',
-        });
-
-        if (response.ok) {
-          window.location.href = '/';
-        } else {
-          console.error('Logout failed');
+<!doctype html>
+<html style="font-size: 16px" lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="keywords" content="37, 8k, 85" />
+    <meta name="description" content="" />
+    <title>dashboard</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen" />
+    <link rel="stylesheet" href="dashboard.css" media="screen" />
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="jquery-1.9.1.min.js"
+      defer=""
+    ></script>
+    <script
+      class="u-script"
+      type="text/javascript"
+      src="nicepage.js"
+      defer=""
+    ></script>
+    <meta name="generator" content="Nicepage 5.19.2, nicepage.com" />
+    <meta name="referrer" content="origin" />
+    <link
+      id="u-theme-google-font"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i"
+    />
+    <meta name="theme-color" content="#478ac9" />
+    <meta property="og:title" content="dashboard" />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href="/" />
+    <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+  </head>
+  <body
+    data-path-to-root="./"
+    class="u-body u-overlap u-overlap-transparent u-xl-mode"
+    data-lang="en"
+  >
+    <section
+      class="u-clearfix u-image u-section-1"
+      id="sec-8192"
+      data-image-width="2000"
+      data-image-height="1333"
+    >
+      <div
+        class="u-container-style u-expanded-width u-grey-60 u-group u-group-1"
+      >
+        <div class="u-container-layout u-container-layout-1">
+          <a
+            href="#"
+            id="logout-btn"
+            class="u-border-1 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-radius-50 u-btn-1"
+            >Logout</a
+          >
+          <a
+            href="/profile"
+            class="u-border-1 u-border-grey-75 u-btn u-btn-round u-button-style u-hover-palette-1-dark-1 u-palette-1-base u-radius-50 u-btn-2"
+            >Profile</a
+          >
+          <quillbot-extension
+            style="
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              pointer-events: none;
+            "
+          ></quillbot-extension>
+          <quillbot-extension-highlights
+            style="
+              position: absolute;
+              top: 0px;
+              left: 0px;
+              pointer-events: none;
+            "
+          ></quillbot-extension-highlights>
+        </div>
+      </div>
+      <div
+        class="data-layout-selected u-clearfix u-disable-padding u-gutter-36 u-layout-wrap u-layout-wrap-1"
+      >
+        <div class="u-gutter-0 u-layout">
+          <div class="u-layout-row">
+            <div
+              class="u-align-center u-container-style u-layout-cell u-left-cell u-size-20 u-white u-layout-cell-1"
+            >
+              <div
+                class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-valign-middle u-container-layout-2"
+              >
+                <h1
+                  class="u-align-center u-custom-font u-heading-font u-text u-text-palette-1-base u-text-1"
+                  data-animation-name="counter"
+                  data-animation-event="scroll"
+                  data-animation-duration="3000"
+                >
+                  37
+                </h1>
+                <h6 class="u-align-center u-text u-text-2">
+                  Total number of users who have signed up
+                </h6>
+                <quillbot-extension
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension>
+                <quillbot-extension-highlights
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension-highlights>
+              </div>
+            </div>
+            <div
+              class="u-align-center u-container-style u-layout-cell u-size-20 u-white u-layout-cell-2"
+            >
+              <div
+                class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-container-layout-3"
+              >
+                <h1
+                  class="u-custom-font u-heading-font u-text u-text-palette-1-base u-text-3"
+                  data-animation-name="counter"
+                  data-animation-event="scroll"
+                  data-animation-duration="3000"
+                >
+                  8k
+                </h1>
+                <h6 class="u-text u-text-4">
+                  Total number of users with active sessions today
+                </h6>
+                <quillbot-extension
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension>
+                <quillbot-extension-highlights
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension-highlights>
+              </div>
+            </div>
+            <div
+              class="u-align-center u-container-style u-layout-cell u-size-20 u-white u-layout-cell-3"
+            >
+              <div
+                class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-valign-bottom u-container-layout-4"
+              >
+                <h1
+                  class="u-align-center u-custom-font u-heading-font u-text u-text-palette-1-base u-text-5"
+                  data-animation-name="counter"
+                  data-animation-event="scroll"
+                  data-animation-duration="3000"
+                >
+                  85
+                </h1>
+                <h6 class="u-align-center u-text u-text-6">
+                  Average number of active session users&nbsp;<br />in the last
+                  7 days rolling
+                </h6>
+                <quillbot-extension
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension>
+                <quillbot-extension-highlights
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    pointer-events: none;
+                  "
+                ></quillbot-extension-highlights>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="custom-expanded u-table u-table-responsive u-table-1">
+        <table class="u-table-entity">
+          <colgroup>
+            <col width="25%" />
+            <col width="25%" />
+            <col width="25%" />
+            <col width="25%" />
+          </colgroup>
+          <thead class="u-palette-4-base u-table-header u-table-header-1">
+            <tr style="height: 34px">
+              <th class="u-border-1 u-border-palette-4-base u-table-cell"></th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">
+                Timestamp of user sign up
+              </th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">
+                Number of times logged in
+              </th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">
+                Timestamp of the last user session
+              </th>
+            </tr>
+          </thead>
+          <tbody class="u-table-body">
+            <tr style="height: 45px">
+              <td
+                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-5"
+              >
+                Row 1
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell u-table-cell-6"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+            </tr>
+            <tr style="height: 45px">
+              <td
+                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-9"
+              >
+                Row 2
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+            </tr>
+            <tr style="height: 45px">
+              <td
+                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-13"
+              >
+                Row 3
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+            </tr>
+            <tr style="height: 45px">
+              <td
+                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-17"
+              >
+                Row 4
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              >
+                Description
+              </td>
+            </tr>
+            <tr style="height: 45px">
+              <td
+                class="u-border-1 u-border-grey-30 u-grey-5 u-table-cell u-table-cell-21"
+              ></td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              ></td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              ></td>
+              <td
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
+              ></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <script>
+      const logoutBtn = document.getElementById('logout-btn');
+      logoutBtn.addEventListener('click', async e => {
+        try {
+          const response = await fetch('/user/logout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          const responseJson = await response.json();
+          console.log(response);
+          console.log(responseJson);
+          if (response.ok) {
+            window.location.replace('/');
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
         }
-      } catch (error) {
-        console.error('An error occurred:', error);
-      }
-    });
-  </script>
-</body>
-
+      });
+    </script>
+  </body>
 </html>
