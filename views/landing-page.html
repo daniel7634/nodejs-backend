@@ -153,8 +153,6 @@
       const passwordInput = document.getElementById('sign-up-password');
       const confirmPasswordInput = document.getElementById('sign-up-repeat-password');
       signUpBtn.addEventListener('click', async (e) => {
-        // e.preventDefault();
-
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -206,8 +204,6 @@
       const signInEmailInput = document.getElementById('sign-in-email');
       const signInPasswordInput = document.getElementById('sign-in-password');
       signInBtn.addEventListener('click', async (e) => {
-        // e.preventDefault();
-
         if (!signInEmailInput.value) {
           alert('Please enter a valid email address.');
           return;
@@ -232,10 +228,15 @@
           const responseJson = await response.json()
           console.log(response)
           console.log(responseJson)
-          if (!response.ok) {
-            console.log(responseJson.message);
+          if (response.ok) {
+            if (responseJson.isVerified) {
+              window.location.replace('/');  
+            } else {
+              tabSignIn.style.display = 'none';
+              tabResend.style.display = 'flex';
+            }
           } else {
-            window.location.replace('/');
+            console.log(responseJson.message);
           }
         } catch (error) {
           console.error('An error occurred:', error);

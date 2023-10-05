@@ -21,7 +21,7 @@ export async function createUserWithToken(
   return user;
 }
 
-export async function createGoogleUserIfNotExist(
+export async function createVerifiedUser(
   name: string,
   email: string
 ): Promise<User> {
@@ -32,7 +32,9 @@ export async function createGoogleUserIfNotExist(
       email,
       isVerified: true,
     },
-    update: {},
+    update: {
+      isVerified: true,
+    },
   });
   return user;
 }

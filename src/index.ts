@@ -1,6 +1,6 @@
 import path from 'path';
 
-import express, {Request, Response, NextFunction} from 'express';
+import express, {Request, Response} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
@@ -10,12 +10,11 @@ import MySQLStoreFactory from 'express-mysql-session';
 
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
-import {createGoogleUserIfNotExist, getUser} from './repo';
+import {createVerifiedUser, isUserVerified} from './repo';
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.static(path.join(__dirname, '../views')));
 const viewsDir = path.join(__dirname, '../views');
 const MySQLStore = MySQLStoreFactory(sessionNameSpace);
 const options = {
@@ -41,7 +40,6 @@ sessionMySQLStore
     console.log('MySQLStore ready');
   })
   .catch(error => {
-    // Something went wrong.
     console.error(error);
   });
 
@@ -74,10 +72,7 @@ passport.use(
       if (!profile.emails) {
         return cb(new Error('There is no email'), profile);
       } else {
-        await createGoogleUserIfNotExist(
-          profile.displayName,
-          profile.emails[0].value
-        );
+        await createVerifiedUser(profile.displayName, profile.emails[0].value);
         return cb(null, profile);
       }
     }
@@ -89,32 +84,16 @@ app.use(express.json());
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 
-async function auth(req: Request, res: Response, next: NextFunction) {
-  if (req.session.email) {
-    const user = await getUser(req.session.email);
-    if (user) {
-      if (user.isVerified) {
-        next();
-      } else {
-        res.send('Check verification in your email box');
-      }
-    } else {
-      res.sendFile('Landing-Page.html', {root: viewsDir});
-    }
+app.get('/', async (req: Request, res: Response) => {
+  if (req.session.email && (await isUserVerified(req.session.email))) {
+    res.sendFile('dashboard.html', {root: viewsDir});
   } else {
-    res.sendFile('Landing-Page.html', {root: viewsDir});
+    res.redirect('/landing');
   }
-}
-
-app.post('/logout', auth, (req: Request, res: Response) => {
-  req.session.destroy(() => {
-    console.log('session destroyed');
-  });
-  res.send('Logout successful');
 });
 
-app.get('/', auth, (req: Request, res: Response) => {
-  return res.sendFile('dashboard.html', {root: viewsDir});
+app.get('/landing', (req: Request, res: Response) => {
+  return res.sendFile('landing-page.html', {root: viewsDir});
 });
 
 app.listen(port, () => {

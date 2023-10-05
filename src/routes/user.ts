@@ -85,4 +85,11 @@ router.post(
   }
 );
 
+router.post('/logout', (req: Request, res: Response) => {
+  req.session.destroy(() => {
+    console.log('session destroyed');
+  });
+  res.send('Logout successful');
+});
+
 export default router;

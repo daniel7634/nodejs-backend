@@ -101,12 +101,8 @@ router.post(
         return res.status(401).json({message: 'Invalid email or password'});
       }
 
-      if (!user.isVerified) {
-        return res.send({message: 'Check verification in your email box'});
-      } else {
-        req.session.email = user.email;
-        return res.json({message: 'Login successful'});
-      }
+      req.session.email = postData.email;
+      return res.json({isVerified: user.isVerified});
     } catch (error) {
       console.error(error);
       return res.status(500).json({message: 'Internal server error'});
