@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <title>Landing Page</title>
     <link rel="stylesheet" href="nicepage.css" media="screen">
-    <link rel="stylesheet" href="landing-page.css" media="screen">
+    <link rel="stylesheet" href="landing.css" media="screen">
     <script class="u-script" type="text/javascript" src="jquery-1.9.1.min.js" defer=""></script>
     <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
     <meta name="generator" content="Nicepage 5.19.2, nicepage.com">
@@ -23,6 +23,104 @@
         content: " *";
         color: red;
     }
+
+    .toast {
+      position: absolute;
+      top: 25px;
+      right: 30px;
+      border-radius: 12px;
+      background: #fff;
+      padding: 20px 35px 20px 25px;
+      box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transform: translateX(calc(100% + 30px));
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    }
+
+    .toast.active {
+      transform: translateX(0%);
+    }
+
+    .toast .toast-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .toast-content .check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 35px;
+      min-width: 35px;
+      background-color: #4070f4;
+      color: #fff;
+      font-size: 20px;
+      border-radius: 50%;
+    }
+
+    .toast-content .message {
+      display: flex;
+      flex-direction: column;
+      margin: 0 20px;
+    }
+
+    .message .text {
+      font-size: 16px;
+      font-weight: 400;
+      color: #666666;
+    }
+
+    .message .text.text-1 {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .toast .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      padding: 5px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .toast .close:hover {
+      opacity: 1;
+    }
+
+    .toast .progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+
+    }
+
+    .toast .progress:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #f44040;
+    }
+
+    .progress.active:before {
+      animation: progress 3s linear forwards;
+    }
+
+    @keyframes progress {
+      100% {
+        right: 100%;
+      }
+    }
+
+    .toast.active ~ button {
+      pointer-events: none;
+    }
+
   </style>
 </head>
   <body data-path-to-root="./" class="u-body u-xl-mode" data-lang="en">
@@ -124,7 +222,7 @@
                   <div class="u-container-layout u-container-layout-5">
                     <img class="u-image u-image-round u-preserve-proportions u-radius-10 u-image-2" src="images/mail.png" alt="" data-image-width="512" data-image-height="512">
                     <p class="u-align-center u-text u-text-default u-text-4"> Thank you for registering! Please check your email for a verification link.</p>
-                    <a href="https://nicepage.com/web-design" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-3-dark-1 u-palette-3-base u-radius-50 u-btn-7"> Resend Email Verification</a>
+                    <a href="#" id="resend-btn" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-3-dark-1 u-palette-3-base u-radius-50 u-btn-7"> Resend Email Verification</a>
                   </div>
                 </div>
               </div>
@@ -132,6 +230,18 @@
           </div>
         </div>
       </div>
+
+      <div class="toast">
+  
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Fail</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress"></div>
+      </div>
+
     </section>
     <script>
       const tabWelcome = document.getElementById('tab-welcome');
@@ -161,17 +271,17 @@
         const confirmPasswordValid = passwordInput.value === confirmPasswordInput.value;
 
         if (!emailValid) {
-          alert('Please enter a valid email address.');
+          showToast('Please enter a valid email address.');
           return;
         }
 
         if (!passwordValid) {
-          alert('Password must meet the requirements.');
+          showToast('Password must meet the requirements.');
           return;
         }
 
         if (!confirmPasswordValid) {
-          alert('Passwords do not match.');
+          showToast('Passwords do not match.');
           return;
         }
 
@@ -193,7 +303,7 @@
             tabSignUp.style.display = 'none';
             tabResend.style.display = 'flex';
           } else {
-            alert(responseJson.message);
+            showToast(responseJson.error);
           }
         } catch (error) {
           console.error('An error occurred:', error);
@@ -205,12 +315,12 @@
       const signInPasswordInput = document.getElementById('sign-in-password');
       signInBtn.addEventListener('click', async (e) => {
         if (!signInEmailInput.value) {
-          alert('Please enter a valid email address.');
+          showToast('Please enter a valid email address.');
           return;
         }
 
         if (!signInPasswordInput.value) {
-          alert('Password must meet the requirements.');
+          showToast('Password must meet the requirements.');
           return;
         }
 
@@ -236,11 +346,56 @@
               tabResend.style.display = 'flex';
             }
           } else {
-            console.log(responseJson.message);
+            showToast(responseJson.error);
           }
         } catch (error) {
           console.error('An error occurred:', error);
         }
       });
+
+      const resendBtn = document.getElementById('resend-btn');
+      resendBtn.addEventListener('click', async (e) => {
+        try {
+          const response = await fetch('/auth/resend-email', {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          const responseJson = await response.json()
+          console.log(response)
+          console.log(responseJson)
+          if (response.ok) {
+            resendBtn.style.display = 'none';
+          } else {
+            showToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      });
+
+      const toast = document.querySelector('.toast');
+      const progressBefore = toast.querySelector('.progress:before');
+      const closeIcon = document.querySelector('.close');
+      const progress = document.querySelector('.progress');
+      const toastText2 = document.querySelector('.toast .text-2');
+
+      let timer1, timer2;
+
+      function showToast(msg) {
+        toastText2.textContent = msg;
+        toast.classList.add('active');
+        progress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          toast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          progress.classList.remove('active');
+        }, 3300);
+      };
+
     </script>
 </body></html>

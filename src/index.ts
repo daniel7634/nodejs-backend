@@ -96,7 +96,7 @@ app.get('/', async (req: Request, res: Response) => {
 });
 
 app.get('/landing', (req: Request, res: Response) => {
-  return res.sendFile('landing-page.html', {root: viewsDir});
+  return res.sendFile('landing.html', {root: viewsDir});
 });
 
 // Add error handler
