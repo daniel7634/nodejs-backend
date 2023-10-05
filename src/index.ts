@@ -1,9 +1,10 @@
 import path from 'path';
 
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
+import 'express-async-errors';
 import session from 'express-session';
 import * as sessionNameSpace from 'express-session';
 import MySQLStoreFactory from 'express-mysql-session';
@@ -11,6 +12,8 @@ import MySQLStoreFactory from 'express-mysql-session';
 import authRouter from './routes/auth';
 import userRouter from './routes/user';
 import {createVerifiedUser, isUserVerified} from './repo';
+import {StatusCodes, getReasonPhrase} from 'http-status-codes';
+import {RouteError} from './error';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -94,6 +97,20 @@ app.get('/', async (req: Request, res: Response) => {
 
 app.get('/landing', (req: Request, res: Response) => {
   return res.sendFile('landing-page.html', {root: viewsDir});
+});
+
+// Add error handler
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.log('error handler');
+  console.log(err);
+  if (err instanceof RouteError) {
+    res.status(err.status).json({error: err.message});
+  } else {
+    console.error(err.message);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({error: getReasonPhrase(StatusCodes.INTERNAL_SERVER_ERROR)});
+  }
 });
 
 app.listen(port, () => {

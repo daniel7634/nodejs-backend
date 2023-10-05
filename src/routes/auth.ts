@@ -1,9 +1,7 @@
-import {v4 as uuidv4} from 'uuid';
 import express, {Request, Response} from 'express';
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
-import bcrypt from 'bcrypt';
 import {
   registerEmailValidator,
   registerPasswordValidator,
@@ -11,14 +9,11 @@ import {
   loginPasswordValidator,
   acceptDataValidator,
 } from '../validators/auth-validator';
-import {
-  acceptRegistration,
-  createUserWithToken,
-  getRegistrationToken,
-  getUser,
-} from '../repo';
+import {acceptRegistration, getRegistrationToken} from '../repo';
 import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
+import {loginUser, registerUser} from '../services/auth-service';
+import {StatusCodes} from 'http-status-codes';
 
 const router = express.Router();
 
@@ -50,27 +45,14 @@ router.post(
   registerPasswordValidator(),
   checkValidatorResult,
   async (req: Request<{}, {}, RegisterPostData>, res) => {
-    try {
-      const postData: RegisterPostData = req.body;
+    const postData: RegisterPostData = req.body;
 
-      const user = await getUser(postData.email);
-      if (user) {
-        return res.status(400).json({message: 'Email already exists'});
-      }
+    await registerUser(postData.email, postData.password);
 
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(postData.password, saltRounds);
-
-      const token = uuidv4();
-      await createUserWithToken(postData.email, hashedPassword, token);
-      sendVerificationEmail(postData.email, token);
-
-      req.session.email = postData.email;
-      return res.status(201).json({message: 'Register successful'});
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({message: 'Internal server error'});
-    }
+    req.session.email = postData.email;
+    return res
+      .status(StatusCodes.CREATED)
+      .json({message: 'Register successful'});
   }
 );
 
@@ -85,28 +67,12 @@ router.post(
   loginPasswordValidator(),
   checkValidatorResult,
   async (req: Request<{}, {}, LoginPostData>, res: Response) => {
-    try {
-      const postData: LoginPostData = req.body;
+    const postData: LoginPostData = req.body;
 
-      const user = await getUser(postData.email);
-      if (!user || !user.password) {
-        return res.status(401).json({message: 'Invalid email or password'});
-      }
+    const user = await loginUser(postData.email, postData.password);
 
-      const passwordMatch = await bcrypt.compare(
-        postData.password,
-        user.password
-      );
-      if (!passwordMatch) {
-        return res.status(401).json({message: 'Invalid email or password'});
-      }
-
-      req.session.email = postData.email;
-      return res.json({isVerified: user.isVerified});
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({message: 'Internal server error'});
-    }
+    req.session.email = postData.email;
+    return res.json({data: {isVerified: user.isVerified}});
   }
 );
 
@@ -119,36 +85,26 @@ router.get(
   acceptDataValidator(),
   checkValidatorResult,
   async (req: Request<{}, {}, {}, AcceptQueryData>, res: Response) => {
-    try {
-      const queryData: AcceptQueryData = req.query;
-      if (queryData.token) {
-        const user = await acceptRegistration(queryData.token);
-        if (user) {
-          req.session.email = user.email;
-          return res.redirect('/');
-        }
+    const queryData: AcceptQueryData = req.query;
+    if (queryData.token) {
+      const user = await acceptRegistration(queryData.token);
+      if (user) {
+        req.session.email = user.email;
+        return res.redirect('/');
       }
-      return res.send('Email verification has expired');
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({message: 'Internal server error'});
     }
+    return res.json({error: 'Email verification has expired'});
   }
 );
 
 router.post('/resend-email', async (req: Request, res: Response) => {
-  try {
-    if (req.session.email) {
-      const email: string = req.session.email;
-      const token = await getRegistrationToken(email);
-      if (token) {
-        sendVerificationEmail(email, token);
-      }
-      res.json({msg: 'Resend email successful'});
+  if (req.session.email) {
+    const email: string = req.session.email;
+    const token = await getRegistrationToken(email);
+    if (token) {
+      sendVerificationEmail(email, token);
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({message: 'Internal server error'});
+    res.json({msg: 'Resend email successful'});
   }
 });
 

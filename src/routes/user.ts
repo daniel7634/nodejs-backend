@@ -1,16 +1,13 @@
 import express, {Request, Response, NextFunction} from 'express';
-import bcrypt from 'bcrypt';
-import {
-  getUser,
-  isUserVerified,
-  updateUserName,
-  updateUserPassword,
-} from '../repo';
+import {isUserVerified} from '../repo';
 import {
   profileNameValidator,
   resetPasswordValidators,
 } from '../validators/user-validator';
 import {checkValidatorResult} from './util';
+import {RouteError} from '../error';
+import {StatusCodes} from 'http-status-codes';
+import {resetPassword, updateProfile} from '../services/user-service';
 
 const router = express.Router();
 
@@ -20,7 +17,7 @@ async function verifyUser(req: Request, res: Response, next: NextFunction) {
   if (req.session.email && (await isUserVerified(req.session.email))) {
     next();
   } else {
-    res.status(401).json({message: 'User is not verified'});
+    throw new RouteError(StatusCodes.UNAUTHORIZED, 'User is not verified');
   }
 }
 
@@ -28,19 +25,16 @@ interface ProfilePostData {
   name: string;
 }
 
-router.post(
+router.patch(
   '/profile',
   profileNameValidator(),
   checkValidatorResult,
-  async (res: Request<{}, {}, ProfilePostData>, rep: Response) => {
-    try {
-      const postData: ProfilePostData = res.body;
-      await updateUserName(res.session.email as string, postData.name);
-      rep.json({message: 'Update successful'});
-    } catch (error) {
-      console.error(error);
-      rep.status(400).json({message: 'Update failed'});
-    }
+  async (req: Request<{}, {}, ProfilePostData>, res: Response) => {
+    const postData: ProfilePostData = req.body;
+
+    await updateProfile(req.session.email as string, postData.name);
+
+    res.json({message: 'Update successful'});
   }
 );
 
@@ -54,34 +48,15 @@ router.post(
   resetPasswordValidators,
   checkValidatorResult,
   async (req: Request<{}, {}, ResetPasswordPostData>, res: Response) => {
-    try {
-      const postData: ResetPasswordPostData = req.body;
+    const postData: ResetPasswordPostData = req.body;
 
-      const user = await getUser(req.session.email as string);
-      if (!user || !user.password) {
-        return res.status(401).json({message: 'Invalid email or password'});
-      }
+    await resetPassword(
+      req.session.email as string,
+      postData.oldPassword,
+      postData.newPassword
+    );
 
-      const passwordMatch = await bcrypt.compare(
-        postData.oldPassword,
-        user.password
-      );
-      if (!passwordMatch) {
-        return res.status(401).json({message: 'Invalid email or password'});
-      }
-
-      const saltRounds = 10;
-      const hashedPassword = await bcrypt.hash(
-        postData.newPassword,
-        saltRounds
-      );
-
-      await updateUserPassword(req.session.email as string, hashedPassword);
-      return res.json({message: 'Update successful'});
-    } catch (error) {
-      console.error(error);
-      return res.status(400).json({message: 'Update failed'});
-    }
+    return res.json({message: 'Update successful'});
   }
 );
 
@@ -89,7 +64,7 @@ router.post('/logout', (req: Request, res: Response) => {
   req.session.destroy(() => {
     console.log('session destroyed');
   });
-  res.send('Logout successful');
+  res.json({message: 'Logout successful'});
 });
 
 export default router;
