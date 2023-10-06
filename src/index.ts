@@ -8,11 +8,12 @@ import 'express-async-errors';
 import session from 'express-session';
 import * as sessionNameSpace from 'express-session';
 import MySQLStoreFactory from 'express-mysql-session';
+import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 
 import authRouter from './routes/auth-route';
 import userRouter from './routes/user-route';
+import dashboardRouter from './routes/dashboard-route';
 import {createVerifiedUser, isUserVerified} from './repo';
-import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 import {RouteError} from './error';
 
 const app = express();
@@ -87,6 +88,7 @@ app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
+app.use('/dashboard', dashboardRouter);
 
 app.get('/', async (req: Request, res: Response) => {
   if (req.session.email && (await isUserVerified(req.session.email))) {

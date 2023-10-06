@@ -128,3 +128,7 @@ export async function updateUserPassword(
   });
   return user;
 }
+
+export async function getUserCount(): Promise<number> {
+  return await prisma.user.count();
+}
