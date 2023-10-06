@@ -2,7 +2,22 @@ import {StatusCodes} from 'http-status-codes';
 import bcrypt from 'bcrypt';
 
 import {RouteError} from '../error';
-import {getUser, updateUserName, updateUserPassword} from '../repo';
+import {
+  UserProfileSelect,
+  getUser,
+  getUserProfile,
+  updateUserName,
+  updateUserPassword,
+} from '../repo';
+
+export async function getProfile(email: string): Promise<UserProfileSelect> {
+  const user = await getUserProfile(email);
+  if (!user) {
+    throw new RouteError(StatusCodes.BAD_REQUEST, 'User is not exist');
+  } else {
+    return user;
+  }
+}
 
 export async function updateProfile(email: string, name: string) {
   try {

@@ -1,25 +1,22 @@
-import express, {Request, Response, NextFunction} from 'express';
-import {isUserVerified} from '../repo';
+import express, {Request, Response} from 'express';
 import {
   profileNameValidator,
   resetPasswordValidators,
 } from '../validators/user-validator';
-import {checkValidatorResult} from './util';
-import {RouteError} from '../error';
-import {StatusCodes} from 'http-status-codes';
-import {resetPassword, updateProfile} from '../services/user-service';
+import {checkValidatorResult, verifyUser} from './util';
+import {
+  getProfile,
+  resetPassword,
+  updateProfile,
+} from '../services/user-service';
 
 const router = express.Router();
 
 router.use(verifyUser);
 
-async function verifyUser(req: Request, res: Response, next: NextFunction) {
-  if (req.session.email && (await isUserVerified(req.session.email))) {
-    next();
-  } else {
-    throw new RouteError(StatusCodes.UNAUTHORIZED, 'User is not verified');
-  }
-}
+router.get('/profile', async (req: Request, res: Response) => {
+  res.json({data: await getProfile(req.session.email as string)});
+});
 
 interface ProfilePostData {
   name: string;

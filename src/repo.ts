@@ -44,6 +44,21 @@ export async function getUser(email: string): Promise<User | null> {
   return user;
 }
 
+export interface UserProfileSelect {
+  name: string | null;
+  email: string;
+}
+
+export async function getUserProfile(
+  email: string
+): Promise<UserProfileSelect | null> {
+  const user = await prisma.user.findUnique({
+    where: {email},
+    select: {name: true, email: true},
+  });
+  return user;
+}
+
 export async function isUserVerified(email: string): Promise<boolean> {
   return (await prisma.user.count({where: {email, isVerified: true}})) === 1;
 }

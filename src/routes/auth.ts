@@ -104,7 +104,7 @@ router.post('/resend-email', async (req: Request, res: Response) => {
     if (token) {
       sendVerificationEmail(email, token);
     }
-    res.json({msg: 'Resend email successful'});
+    res.json({message: 'Resend email successful'});
   }
 });
 
