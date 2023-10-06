@@ -1,4 +1,4 @@
-import {getUserCount} from '../repo';
+import {getUserCount} from '../repo/user-repo';
 
 export async function getTotalSignedUp() {
   return await getUserCount();

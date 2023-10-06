@@ -13,7 +13,7 @@ import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 import authRouter from './routes/auth-route';
 import userRouter from './routes/user-route';
 import dashboardRouter from './routes/dashboard-route';
-import {createVerifiedUser, isUserVerified} from './repo';
+import {createVerifiedUser, isUserVerified} from './repo/user-repo';
 import {RouteError} from './error';
 
 const app = express();

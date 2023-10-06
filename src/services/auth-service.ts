@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import {StatusCodes} from 'http-status-codes';
 import {User} from '@prisma/client';
 
-import {createUserWithToken, getUser} from '../repo';
+import {createUserWithToken, getUser} from '../repo/user-repo';
 import {sendVerificationEmail} from '../emailer';
 import {RouteError} from '../error';
 
