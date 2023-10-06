@@ -6,6 +6,7 @@ CREATE TABLE `users` (
     `password` CHAR(60) NULL,
     `is_verified` BOOLEAN NOT NULL DEFAULT false,
     `login_count` INTEGER NOT NULL DEFAULT 0,
+    `last_session_at` DATETIME(3) NULL,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `users_email_key`(`email`),
@@ -28,7 +29,7 @@ CREATE TABLE `sessions` (
     `session_id` VARCHAR(128) NOT NULL,
     `expires` INTEGER NOT NULL,
     `data` TINYTEXT NOT NULL,
-    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

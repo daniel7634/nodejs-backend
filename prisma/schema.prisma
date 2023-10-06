@@ -11,13 +11,14 @@ datasource db {
 }
 
 model User {
-  id         Int      @id @default(autoincrement())
-  name       String?  @db.VarChar(30)
-  email      String   @unique @db.VarChar(50)
-  password   String?  @db.Char(60)
-  isVerified Boolean  @default(false) @map("is_verified")
-  loginCount Int      @default(0) @map("login_count")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id            Int       @id @default(autoincrement())
+  name          String?   @db.VarChar(30)
+  email         String    @unique @db.VarChar(50)
+  password      String?   @db.Char(60)
+  isVerified    Boolean   @default(false) @map("is_verified")
+  loginCount    Int       @default(0) @map("login_count")
+  lastSessionAt DateTime? @map("last_session_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
 
   registration UserRegistration?
 
@@ -38,7 +39,7 @@ model Session {
   sessionId String   @map("session_id") @db.VarChar(128)
   expires   Int
   data      String   @db.TinyText
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt // updateAt not working
 
   @@map("sessions")
 }
