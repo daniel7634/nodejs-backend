@@ -14,6 +14,10 @@ import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
 import {loginUser, registerUser} from '../services/auth-service';
 import {StatusCodes} from 'http-status-codes';
+import {
+  getEmailFromSession,
+  setEmailToSession,
+} from '../services/session-service';
 
 const router = express.Router();
 
@@ -48,8 +52,8 @@ router.post(
     const postData: RegisterPostData = req.body;
 
     await registerUser(postData.email, postData.password);
+    await setEmailToSession(req, postData.email);
 
-    req.session.email = postData.email;
     return res
       .status(StatusCodes.CREATED)
       .json({message: 'Register successful'});
@@ -66,12 +70,12 @@ router.post(
   loginEmailValidator(),
   loginPasswordValidator(),
   checkValidatorResult,
-  async (req: Request<{}, {}, LoginPostData>, res: Response) => {
-    const postData: LoginPostData = req.body;
+  async (req: Request, res: Response) => {
+    const postData: LoginPostData = req.body as LoginPostData;
 
     const user = await loginUser(postData.email, postData.password);
+    await setEmailToSession(req, postData.email);
 
-    req.session.email = postData.email;
     return res.json({data: {isVerified: user.isVerified}});
   }
 );
@@ -84,12 +88,14 @@ router.get(
   '/accept',
   acceptDataValidator(),
   checkValidatorResult,
-  async (req: Request<{}, {}, {}, AcceptQueryData>, res: Response) => {
-    const queryData: AcceptQueryData = req.query;
+  async (req: Request, res: Response) => {
+    const queryData: AcceptQueryData = req.query as AcceptQueryData;
     if (queryData.token) {
       const user = await acceptRegistration(queryData.token);
       if (user) {
-        req.session.email = user.email;
+        await increaseUserLoginCount(user.email);
+        await setEmailToSession(req, user.email);
+
         return res.redirect('/');
       }
     }
@@ -98,8 +104,8 @@ router.get(
 );
 
 router.post('/resend-email', async (req: Request, res: Response) => {
-  if (req.session.email) {
-    const email: string = req.session.email;
+  const email = getEmailFromSession(req);
+  if (email) {
     const token = await getRegistrationToken(email);
     if (token) {
       sendVerificationEmail(email, token);

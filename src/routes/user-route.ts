@@ -9,13 +9,14 @@ import {
   resetPassword,
   updateProfile,
 } from '../services/user-service';
+import {getEmailFromSession} from '../services/session-service';
 
 const router = express.Router();
 
 router.use(verifyUser);
 
 router.get('/profile', async (req: Request, res: Response) => {
-  res.json({data: await getProfile(req.session.email as string)});
+  res.json({data: await getProfile(getEmailFromSession(req) as string)});
 });
 
 interface ProfilePostData {
@@ -29,7 +30,7 @@ router.patch(
   async (req: Request<{}, {}, ProfilePostData>, res: Response) => {
     const postData: ProfilePostData = req.body;
 
-    await updateProfile(req.session.email as string, postData.name);
+    await updateProfile(getEmailFromSession(req) as string, postData.name);
 
     res.json({message: 'Update successful'});
   }
