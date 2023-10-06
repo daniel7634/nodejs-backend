@@ -9,8 +9,8 @@ import session from 'express-session';
 import * as sessionNameSpace from 'express-session';
 import MySQLStoreFactory from 'express-mysql-session';
 
-import authRouter from './routes/auth';
-import userRouter from './routes/user';
+import authRouter from './routes/auth-route';
+import userRouter from './routes/user-route';
 import {createVerifiedUser, isUserVerified} from './repo';
 import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 import {RouteError} from './error';
