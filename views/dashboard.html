@@ -32,6 +32,98 @@
     <meta property="og:type" content="website" />
     <link rel="canonical" href="/" />
     <meta data-intl-tel-input-cdn-path="intlTelInput/" />
+    <style>
+      .toast {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        border-radius: 12px;
+        background: #fff;
+        padding: 20px 35px 20px 25px;
+        box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transform: translateX(calc(100% + 30px));
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+      }
+
+      .toast.active {
+        transform: translateX(0%);
+      }
+
+      .toast .toast-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .toast-content .message {
+        display: flex;
+        flex-direction: column;
+        margin: 0 20px;
+      }
+
+      .message .text {
+        font-size: 16px;
+        font-weight: 400;
+        color: #666666;
+      }
+
+      .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .toast .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding: 5px;
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      .toast .close:hover {
+        opacity: 1;
+      }
+
+      .toast .progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 3px;
+        width: 100%;
+      }
+
+      .toast .progress:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      .toast .error-progress:before {
+        background-color: #f44040;
+      }
+
+      .toast .success-progress:before {
+        background-color: #4070f4;
+      }
+
+      .progress.active:before {
+        animation: progress 3s linear forwards;
+      }
+
+      @keyframes progress {
+        100% {
+          right: 100%;
+        }
+      }
+
+      .toast.active ~ button {
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body
     data-path-to-root="./"
@@ -89,12 +181,10 @@
                 class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-valign-middle u-container-layout-2"
               >
                 <h1
+                  id="total-signed-up"
                   class="u-align-center u-custom-font u-heading-font u-text u-text-palette-1-base u-text-1"
-                  data-animation-name="counter"
-                  data-animation-event="scroll"
-                  data-animation-duration="3000"
                 >
-                  37
+                0
                 </h1>
                 <h6 class="u-align-center u-text u-text-2">
                   Total number of users who have signed up
@@ -124,12 +214,10 @@
                 class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-container-layout-3"
               >
                 <h1
+                  id="total-session-today"
                   class="u-custom-font u-heading-font u-text u-text-palette-1-base u-text-3"
-                  data-animation-name="counter"
-                  data-animation-event="scroll"
-                  data-animation-duration="3000"
                 >
-                  8k
+                  0
                 </h1>
                 <h6 class="u-text u-text-4">
                   Total number of users with active sessions today
@@ -159,12 +247,10 @@
                 class="u-border-1 u-border-grey-light-1 u-container-layout u-padding-6 u-valign-bottom u-container-layout-4"
               >
                 <h1
+                  id="average-session"
                   class="u-align-center u-custom-font u-heading-font u-text u-text-palette-1-base u-text-5"
-                  data-animation-name="counter"
-                  data-animation-event="scroll"
-                  data-animation-duration="3000"
                 >
-                  85
+                  0
                 </h1>
                 <h6 class="u-align-center u-text u-text-6">
                   Average number of active session users&nbsp;<br />in the last
@@ -319,8 +405,84 @@
           </tbody>
         </table>
       </div>
+
+      <div class="toast error-toast">
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Error</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress error-progress"></div>
+      </div>
+      <div class="toast success-toast">
+        <div class="toast-content">
+          <div class="message">
+            <span class="text text-1">Success</span>
+            <span class="text text-2"></span>
+          </div>
+        </div>
+        <div class="progress success-progress"></div>
     </section>
     <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        getTotalSignedUp();
+        getTotalSessionToday();
+        getAverageSession(7);
+      });
+
+      const totalSignedUp = document.getElementById('total-signed-up');
+      async function getTotalSignedUp() {
+        try {
+          const response = await fetch('/dashboard/total-signed-up');
+          const responseJson = await response.json();
+          if (response.ok) {
+            const data = responseJson.data;
+            totalSignedUp.textContent = data.total;
+            // totalSignedUp.setAttribute("data-animation-name", "counter");
+            // totalSignedUp.setAttribute("data-animation-event", "scroll");
+            // totalSignedUp.setAttribute("data-animation-duration", "3000");
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }
+
+      const totalSessionToday = document.getElementById('total-session-today');
+      async function getTotalSessionToday() {
+        try {
+          const response = await fetch('/dashboard/total-session-today');
+          const responseJson = await response.json();
+          if (response.ok) {
+            const data = responseJson.data;
+            totalSessionToday.textContent = data.total;
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }
+
+      const averageSession = document.getElementById('average-session');
+      async function getAverageSession(day) {
+        try {
+          const response = await fetch(`/dashboard/average-session?day=${day}`);
+          const responseJson = await response.json();
+          console.log(responseJson);
+          if (response.ok) {
+            const data = responseJson.data;
+            averageSession.textContent = data.total;
+          } else {
+            showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }
+
       const logoutBtn = document.getElementById('logout-btn');
       logoutBtn.addEventListener('click', async e => {
         try {
@@ -340,6 +502,43 @@
           console.error('An error occurred:', error);
         }
       });
+
+      const errorToast = document.querySelector('.error-toast');
+      const errorProgress = document.querySelector('.error-progress');
+      const errorToastText = document.querySelector('.error-toast .text-2');
+
+      let timer1, timer2;
+      function showErrorToast(msg) {
+        errorToastText.textContent = msg;
+        errorToast.classList.add('active');
+        errorProgress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          errorToast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          errorProgress.classList.remove('active');
+        }, 3300);
+      }
+
+      const successToast = document.querySelector('.success-toast');
+      const successProgress = document.querySelector('.success-progress');
+      const successToastText = document.querySelector('.success-toast .text-2');
+
+      function showSuccessToast(msg) {
+        successToastText.textContent = msg;
+        successToast.classList.add('active');
+        successProgress.classList.add('active');
+
+        timer1 = setTimeout(() => {
+          successToast.classList.remove('active');
+        }, 3000);
+
+        timer2 = setTimeout(() => {
+          successProgress.classList.remove('active');
+        }, 3300);
+      }
     </script>
   </body>
 </html>
