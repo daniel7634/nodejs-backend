@@ -24,15 +24,13 @@ interface AverageSessionParams {
   day?: number;
 }
 
-router.get(
-  '/average-session',
-  async (req: Request<{}, {}, {}, AverageSessionParams>, res: Response) => {
-    let total = 0;
-    if (req.query.day) {
-      total = await getAverageSession(req.query.day);
-    }
-    res.json({data: {total}});
+router.get('/average-session', async (req: Request, res: Response) => {
+  let total = 0;
+  const {day} = req.query as AverageSessionParams;
+  if (day) {
+    total = await getAverageSession(day);
   }
-);
+  res.json({data: {total}});
+});
 
 export default router;

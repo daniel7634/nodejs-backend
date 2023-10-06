@@ -3,7 +3,11 @@ import bcrypt from 'bcrypt';
 import {StatusCodes} from 'http-status-codes';
 import {User} from '@prisma/client';
 
-import {createUserWithToken, getUser} from '../repo/user-repo';
+import {
+  createUserWithToken,
+  getUser,
+  increaseUserLoginCount,
+} from '../repo/user-repo';
 import {sendVerificationEmail} from '../emailer';
 import {RouteError} from '../error';
 
@@ -35,5 +39,6 @@ export async function loginUser(
     throw new RouteError(StatusCodes.BAD_REQUEST, 'Invalid email or password');
   }
 
+  await increaseUserLoginCount(user.email);
   return user;
 }

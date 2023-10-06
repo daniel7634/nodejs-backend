@@ -9,7 +9,7 @@ import {
   loginPasswordValidator,
   acceptDataValidator,
 } from '../validators/auth-validator';
-import {acceptRegistration, getRegistrationToken} from '../repo/user-repo';
+import {acceptRegistration, getRegistrationToken, increaseUserLoginCount} from '../repo/user-repo';
 import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
 import {loginUser, registerUser} from '../services/auth-service';

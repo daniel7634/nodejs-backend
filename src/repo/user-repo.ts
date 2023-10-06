@@ -132,3 +132,17 @@ export async function updateUserPassword(
 export async function getUserCount(): Promise<number> {
   return await prisma.user.count();
 }
+
+export async function increaseUserLoginCount(email: string) {
+  await prisma.user.update({
+    where: {email},
+    data: {loginCount: {increment: 1}},
+  });
+}
+
+export async function updateUserLastSession(email: string) {
+  await prisma.user.update({
+    where: {email},
+    data: {lastSessionAt: new Date()},
+  });
+}

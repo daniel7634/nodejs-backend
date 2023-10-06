@@ -7,4 +7,5 @@ export function getEmailFromSession(req: Request): string | undefined {
 
 export async function setEmailToSession(req: Request, email: string) {
   req.session.email = email;
+  await updateUserLastSession(email);
 }
