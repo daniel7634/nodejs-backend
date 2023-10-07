@@ -1,6 +1,5 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
 import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import {
   registerEmailValidator,
@@ -9,17 +8,14 @@ import {
   loginPasswordValidator,
   acceptDataValidator,
 } from '../validators/auth_validator';
-import {
-  acceptRegistration,
-  getRegistrationToken,
-  increaseUserLoginCount,
-} from '../repo/user_repo';
 import {checkValidatorResult} from './util';
-import {sendVerificationEmail} from '../emailer';
-import {loginUser, registerUser} from '../services/auth_service';
-import {StatusCodes} from 'http-status-codes';
-import {setEmailToSession} from '../middlewares/session/util';
-import {getEmailFromSession} from '../middlewares/session/util';
+import {
+  acceptHandler,
+  googleCallbackHandler,
+  loginHandler,
+  registerHandler,
+  resendEmailHandler,
+} from '../controllers/auth_controller';
 
 const router = express.Router();
 
@@ -31,91 +27,32 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {failureRedirect: '/', session: false}),
-  async (req, res) => {
-    const user = req.user as GoogleStrategy.Profile;
-    if (user.emails) {
-      const email: string = user.emails[0].value;
-      await setEmailToSession(req, email);
-      await increaseUserLoginCount(email);
-    }
-    res.redirect('/');
-  }
+  googleCallbackHandler
 );
-
-interface RegisterPostData {
-  email: string;
-  password: string;
-}
 
 router.post(
   '/register',
   registerEmailValidator(),
   registerPasswordValidator(),
   checkValidatorResult,
-  async (req: Request<{}, {}, RegisterPostData>, res) => {
-    const postData: RegisterPostData = req.body;
-
-    await registerUser(postData.email, postData.password);
-    await setEmailToSession(req, postData.email);
-
-    return res
-      .status(StatusCodes.CREATED)
-      .json({message: 'Register successful'});
-  }
+  registerHandler
 );
-
-interface LoginPostData {
-  email: string;
-  password: string;
-}
 
 router.post(
   '/login',
   loginEmailValidator(),
   loginPasswordValidator(),
   checkValidatorResult,
-  async (req: Request, res: Response) => {
-    const postData: LoginPostData = req.body as LoginPostData;
-
-    const user = await loginUser(postData.email, postData.password);
-    await setEmailToSession(req, postData.email);
-
-    return res.json({data: {isVerified: user.isVerified}});
-  }
+  loginHandler
 );
-
-interface AcceptQueryData {
-  token?: string;
-}
 
 router.get(
   '/accept',
   acceptDataValidator(),
   checkValidatorResult,
-  async (req: Request, res: Response) => {
-    const queryData: AcceptQueryData = req.query as AcceptQueryData;
-    if (queryData.token) {
-      const user = await acceptRegistration(queryData.token);
-      if (user) {
-        await increaseUserLoginCount(user.email);
-        await setEmailToSession(req, user.email);
-
-        return res.redirect('/');
-      }
-    }
-    return res.json({error: 'Email verification has expired'});
-  }
+  acceptHandler
 );
 
-router.post('/resend-email', async (req: Request, res: Response) => {
-  const email = getEmailFromSession(req);
-  if (email) {
-    const token = await getRegistrationToken(email);
-    if (token) {
-      sendVerificationEmail(email, token);
-    }
-    res.json({message: 'Resend email successful'});
-  }
-});
+router.post('/resend-email', resendEmailHandler);
 
 export default router;
