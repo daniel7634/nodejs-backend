@@ -299,15 +299,15 @@
               </th>
             </tr>
           </thead>
-          <tbody class="u-table-body">
+          <tbody id="users-tbody" class="u-table-body">
             <tr style="height: 45px">
               <td
-                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-5"
+                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell"
               >
                 Row 1
               </td>
               <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell u-table-cell-6"
+                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
               >
                 Description
               </td>
@@ -388,22 +388,12 @@
                 Description
               </td>
             </tr>
-            <tr style="height: 45px">
-              <td
-                class="u-border-1 u-border-grey-30 u-grey-5 u-table-cell u-table-cell-21"
-              ></td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              ></td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              ></td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              ></td>
-            </tr>
           </tbody>
         </table>
+        <div id="page-link">
+          <a href="#">1</a>
+          <a href="#">2</a>
+        </div>
       </div>
 
       <div class="toast error-toast">
@@ -425,11 +415,86 @@
         <div class="progress success-progress"></div>
     </section>
     <script>
+      let currentPage;
       document.addEventListener('DOMContentLoaded', async () => {
         getTotalSignedUp();
         getTotalSessionToday();
         getAverageSession(7);
+        getUsersList(1);
       });
+
+      const usersTbody = document.getElementById('users-tbody');
+      const pageLink = document.getElementById('page-link');
+      async function getUsersList(page) {
+        try {
+          const response = await fetch(`/dashboard/users?page=${page}`);
+          const responseJson = await response.json();
+          if (response.ok) {
+            currentPage = page;
+
+            while (usersTbody.firstChild) {
+              usersTbody.removeChild(usersTbody.firstChild);
+            }
+            while (pageLink.firstChild) {
+              pageLink.removeChild(pageLink.firstChild);
+            }
+
+            const data = responseJson.data
+            for (let i = 0; i < data.users.length; i++) {
+              const user = data.users[i];
+
+              const dataRow = document.createElement('tr');
+              dataRow.style.height = '45px';
+
+              dataRow.appendChild(createFirstCell(user.email))
+              dataRow.appendChild(createCell(user.createdAt))
+              dataRow.appendChild(createCell(user.loginCount))
+              dataRow.appendChild(createCell(user.lastSessionAt))
+
+              usersTbody.appendChild(dataRow);
+            }
+
+            for (let i = 1; i <= data.totalPages; i++) {
+              if (i !== currentPage) {
+                const link = document.createElement('a');
+                link.href = "#";
+                link.textContent = i;
+
+                link.addEventListener("click", async (e) => {
+                  e.preventDefault();
+                  await getUsersList(i);
+                });
+                pageLink.appendChild(link);
+              }
+            }
+          } else {
+              showErrorToast(responseJson.error);
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      }
+
+      function createFirstCell(text) {
+        const dataCell = document.createElement('td');
+        dataCell.classList.add('u-border-1');
+        dataCell.classList.add('u-border-grey-30');
+        dataCell.classList.add('u-first-column');
+        dataCell.classList.add('u-grey-5');
+        dataCell.classList.add('u-table-cell');
+        dataCell.textContent = text;
+        return dataCell;
+      }
+
+      function createCell(text) {
+        const dataCell = document.createElement('td');
+        dataCell.classList.add('u-border-1');
+        dataCell.classList.add('u-border-grey-30');
+        dataCell.classList.add('u-palette-5-light-3');
+        dataCell.classList.add('u-table-cell');
+        dataCell.textContent = text;
+        return dataCell;
+      }
 
       const totalSignedUp = document.getElementById('total-signed-up');
       async function getTotalSignedUp() {

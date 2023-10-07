@@ -129,6 +129,30 @@ export async function updateUserPassword(
   return user;
 }
 
+export interface UsersSelect {
+  email: string;
+  createdAt: Date;
+  loginCount: number;
+  lastSessionAt: Date | null;
+}
+
+export async function getUsers(
+  skip: number,
+  size: number
+): Promise<UsersSelect[]> {
+  const users = await prisma.user.findMany({
+    skip: skip,
+    take: size,
+    select: {
+      email: true,
+      createdAt: true,
+      loginCount: true,
+      lastSessionAt: true,
+    },
+  });
+  return users;
+}
+
 export async function getUserCount(): Promise<number> {
   return await prisma.user.count();
 }

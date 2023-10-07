@@ -4,6 +4,7 @@ import {
   getAverageSession,
   getTotalSessionToday,
   getTotalSignedUp,
+  getUsersPagination,
 } from '../services/dashboard-service';
 
 const router = express.Router();
@@ -31,6 +32,17 @@ router.get('/average-session', async (req: Request, res: Response) => {
     total = await getAverageSession(day);
   }
   res.json({data: {total}});
+});
+
+interface UsersQuery {
+  page?: number;
+}
+
+router.get('/users', async (req, res) => {
+  const {page} = req.query as UsersQuery;
+  res.json({
+    data: await getUsersPagination(page || 1),
+  });
 });
 
 export default router;
