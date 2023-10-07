@@ -5,10 +5,10 @@ import 'dotenv/config';
 import 'express-async-errors';
 import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 
-import authRouter from './routes/auth-route';
-import userRouter from './routes/user-route';
-import dashboardRouter from './routes/dashboard-route';
-import {isUserVerified} from './repo/user-repo';
+import authRouter from './routes/auth_route';
+import userRouter from './routes/user_route';
+import dashboardRouter from './routes/dashboard_route';
+import {isUserVerified} from './repo/user_repo';
 import {RouteError} from './error';
 import session from './middlewares/session/session';
 import {getEmailFromSession} from './middlewares/session/util';

@@ -2,13 +2,13 @@ import express, {Request, Response} from 'express';
 import {
   profileNameValidator,
   resetPasswordValidators,
-} from '../validators/user-validator';
+} from '../validators/user_validator';
 import {checkValidatorResult, verifyUser} from './util';
 import {
   getProfile,
   resetPassword,
   updateProfile,
-} from '../services/user-service';
+} from '../services/user_service';
 import {getEmailFromSession} from '../middlewares/session/util';
 
 const router = express.Router();

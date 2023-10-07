@@ -8,7 +8,7 @@ import {
   getUserProfile,
   updateUserName,
   updateUserPassword,
-} from '../repo/user-repo';
+} from '../repo/user_repo';
 
 export async function getProfile(email: string): Promise<UserProfileSelect> {
   const user = await getUserProfile(email);

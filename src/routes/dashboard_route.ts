@@ -5,7 +5,7 @@ import {
   getTotalSessionToday,
   getTotalSignedUp,
   getUsersPagination,
-} from '../services/dashboard-service';
+} from '../services/dashboard_service';
 
 const router = express.Router();
 

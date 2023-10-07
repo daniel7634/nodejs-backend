@@ -2,7 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import {getValidateErrorMsg} from '../validators/util';
 import {RouteError} from '../error';
 import {StatusCodes} from 'http-status-codes';
-import {isUserVerified} from '../repo/user-repo';
+import {isUserVerified} from '../repo/user_repo';
 import {getEmailFromSession} from '../middlewares/session/util';
 
 export function checkValidatorResult(

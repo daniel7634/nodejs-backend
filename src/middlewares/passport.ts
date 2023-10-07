@@ -1,6 +1,6 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
-import {createVerifiedUser} from '../repo/user-repo';
+import {createVerifiedUser} from '../repo/user_repo';
 
 passport.use(
   new GoogleStrategy.Strategy(

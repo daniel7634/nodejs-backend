@@ -1,5 +1,5 @@
 import {Request} from 'express';
-import {updateUserLastSession} from '../../repo/user-repo';
+import {updateUserLastSession} from '../../repo/user_repo';
 
 declare module 'express-session' {
   // type for req.session

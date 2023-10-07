@@ -8,15 +8,15 @@ import {
   loginEmailValidator,
   loginPasswordValidator,
   acceptDataValidator,
-} from '../validators/auth-validator';
+} from '../validators/auth_validator';
 import {
   acceptRegistration,
   getRegistrationToken,
   increaseUserLoginCount,
-} from '../repo/user-repo';
+} from '../repo/user_repo';
 import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
-import {loginUser, registerUser} from '../services/auth-service';
+import {loginUser, registerUser} from '../services/auth_service';
 import {StatusCodes} from 'http-status-codes';
 import {setEmailToSession} from '../middlewares/session/util';
 import {getEmailFromSession} from '../middlewares/session/util';

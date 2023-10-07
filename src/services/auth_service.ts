@@ -7,7 +7,7 @@ import {
   createUserWithToken,
   getUser,
   increaseUserLoginCount,
-} from '../repo/user-repo';
+} from '../repo/user_repo';
 import {sendVerificationEmail} from '../emailer';
 import {RouteError} from '../error';
 
