@@ -15,6 +15,7 @@ import userRouter from './routes/user-route';
 import dashboardRouter from './routes/dashboard-route';
 import {createVerifiedUser, isUserVerified} from './repo/user-repo';
 import {RouteError} from './error';
+import {getEmailFromSession} from './services/session-service';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -91,7 +92,8 @@ app.use('/user', userRouter);
 app.use('/dashboard', dashboardRouter);
 
 app.get('/', async (req: Request, res: Response) => {
-  if (req.session.email && (await isUserVerified(req.session.email))) {
+  const email = getEmailFromSession(req);
+  if (email && (await isUserVerified(email))) {
     res.sendFile('dashboard.html', {root: viewsDir});
   } else {
     res.redirect('/landing');
@@ -103,7 +105,8 @@ app.get('/landing', (req: Request, res: Response) => {
 });
 
 app.get('/profile', async (req: Request, res: Response) => {
-  if (req.session.email && (await isUserVerified(req.session.email))) {
+  const email = getEmailFromSession(req);
+  if (email && (await isUserVerified(email))) {
     res.sendFile('profile.html', {root: viewsDir});
   } else {
     res.redirect('/landing');

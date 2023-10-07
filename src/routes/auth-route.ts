@@ -33,10 +33,12 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {failureRedirect: '/', session: false}),
-  (req, res) => {
+  async (req, res) => {
     const user = req.user as GoogleStrategy.Profile;
     if (user.emails) {
-      req.session.email = user.emails[0].value;
+      const email: string = user.emails[0].value;
+      await setEmailToSession(req, email);
+      await increaseUserLoginCount(email);
     }
     res.redirect('/');
   }
