@@ -18,10 +18,8 @@ import {checkValidatorResult} from './util';
 import {sendVerificationEmail} from '../emailer';
 import {loginUser, registerUser} from '../services/auth-service';
 import {StatusCodes} from 'http-status-codes';
-import {
-  getEmailFromSession,
-  setEmailToSession,
-} from '../services/session-service';
+import {setEmailToSession} from '../middlewares/session/util';
+import {getEmailFromSession} from '../middlewares/session/util';
 
 const router = express.Router();
 

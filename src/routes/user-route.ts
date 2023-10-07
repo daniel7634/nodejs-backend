@@ -9,7 +9,7 @@ import {
   resetPassword,
   updateProfile,
 } from '../services/user-service';
-import {getEmailFromSession} from '../services/session-service';
+import {getEmailFromSession} from '../middlewares/session/util';
 
 const router = express.Router();
 

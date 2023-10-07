@@ -1,92 +1,30 @@
 import path from 'path';
 
 import express, {Request, Response, NextFunction} from 'express';
-import passport from 'passport';
-import GoogleStrategy from 'passport-google-oauth20';
 import 'dotenv/config';
 import 'express-async-errors';
-import session from 'express-session';
-import * as sessionNameSpace from 'express-session';
-import MySQLStoreFactory from 'express-mysql-session';
 import {StatusCodes, getReasonPhrase} from 'http-status-codes';
 
 import authRouter from './routes/auth-route';
 import userRouter from './routes/user-route';
 import dashboardRouter from './routes/dashboard-route';
-import {createVerifiedUser, isUserVerified} from './repo/user-repo';
+import {isUserVerified} from './repo/user-repo';
 import {RouteError} from './error';
-import {getEmailFromSession} from './services/session-service';
+import session from './middlewares/session/session';
+import {getEmailFromSession} from './middlewares/session/util';
+import passport from './middlewares/passport';
 
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(express.static(path.join(__dirname, '../public')));
-app.use(express.static(path.join(__dirname, '../views')));
-const viewsDir = path.join(__dirname, '../views');
-const MySQLStore = MySQLStoreFactory(sessionNameSpace);
-const options = {
-  host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT as string, 10),
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  schema: {
-    tableName: 'sessions',
-    columnNames: {
-      session_id: 'session_id',
-      expires: 'expires',
-      data: 'data',
-    },
-  },
-};
-
-const sessionMySQLStore = new MySQLStore(options);
-sessionMySQLStore
-  .onReady()
-  .then(() => {
-    console.log('MySQLStore ready');
-  })
-  .catch(error => {
-    console.error(error);
-  });
-
-// session
-declare module 'express-session' {
-  // type for req.session
-  interface SessionData {
-    email: string;
-  }
-}
-
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET as string,
-    store: sessionMySQLStore,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-// passport
-passport.use(
-  new GoogleStrategy.Strategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: `${process.env.HOST}/auth/google/callback`,
-    },
-    async (accessToken, refreshToken, profile: GoogleStrategy.Profile, cb) => {
-      if (!profile.emails || !profile.emails[0].value) {
-        return cb(new Error('There is no email'), profile);
-      } else {
-        await createVerifiedUser(profile.displayName, profile.emails[0].value);
-        return cb(null, profile);
-      }
-    }
-  )
-);
-app.use(passport.initialize());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
+const viewsDir = path.join(__dirname, '../views');
 
+// Setup middlewares
+app.use(session);
+app.use(passport.initialize());
+
+// Setup express router
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/dashboard', dashboardRouter);
@@ -116,7 +54,8 @@ app.get('/profile', checkUserVerified, async (req: Request, res: Response) => {
   res.sendFile('profile.html', {root: viewsDir});
 });
 
-// Add error handler
+// An error handler that takes care of any errors that might be encountered in the app
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof RouteError) {
     res.status(err.status).json({error: err.message});

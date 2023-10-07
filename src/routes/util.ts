@@ -3,7 +3,7 @@ import {getValidateErrorMsg} from '../validators/util';
 import {RouteError} from '../error';
 import {StatusCodes} from 'http-status-codes';
 import {isUserVerified} from '../repo/user-repo';
-import {getEmailFromSession} from '../services/session-service';
+import {getEmailFromSession} from '../middlewares/session/util';
 
 export function checkValidatorResult(
   req: Request,
