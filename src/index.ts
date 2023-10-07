@@ -75,7 +75,7 @@ passport.use(
       callbackURL: `${process.env.HOST}/auth/google/callback`,
     },
     async (accessToken, refreshToken, profile: GoogleStrategy.Profile, cb) => {
-      if (!profile.emails) {
+      if (!profile.emails || !profile.emails[0].value) {
         return cb(new Error('There is no email'), profile);
       } else {
         await createVerifiedUser(profile.displayName, profile.emails[0].value);
@@ -91,32 +91,33 @@ app.use('/auth', authRouter);
 app.use('/user', userRouter);
 app.use('/dashboard', dashboardRouter);
 
-app.get('/', async (req: Request, res: Response) => {
+async function checkUserVerified(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const email = getEmailFromSession(req);
   if (email && (await isUserVerified(email))) {
-    res.sendFile('dashboard.html', {root: viewsDir});
+    next();
   } else {
     res.redirect('/landing');
   }
+}
+
+app.get('/', checkUserVerified, async (req: Request, res: Response) => {
+  res.sendFile('dashboard.html', {root: viewsDir});
 });
 
 app.get('/landing', (req: Request, res: Response) => {
-  return res.sendFile('landing.html', {root: viewsDir});
+  res.sendFile('landing.html', {root: viewsDir});
 });
 
-app.get('/profile', async (req: Request, res: Response) => {
-  const email = getEmailFromSession(req);
-  if (email && (await isUserVerified(email))) {
-    res.sendFile('profile.html', {root: viewsDir});
-  } else {
-    res.redirect('/landing');
-  }
+app.get('/profile', checkUserVerified, async (req: Request, res: Response) => {
+  res.sendFile('profile.html', {root: viewsDir});
 });
 
 // Add error handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log('error handler');
-  console.log(err);
   if (err instanceof RouteError) {
     res.status(err.status).json({error: err.message});
   } else {
@@ -128,5 +129,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is listening at prot:${port}`);
+  console.log(`Server is listening at port:${port}`);
 });
