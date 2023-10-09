@@ -1,12 +1,10 @@
 import {Meta, body} from 'express-validator';
+import {maxLength, strongPassword, trimNotEmpty} from './common_validator';
 
-export const profileNameValidator = () =>
-  body('name')
-    .trim()
-    .notEmpty()
-    .withMessage('The name can be empty')
-    .isLength({max: 30})
-    .withMessage('The name must not exceed 30 characters');
+export const patchProfileValidators = [
+  trimNotEmpty('name', 'The name can be empty'),
+  maxLength('name', 30, 'The name must not exceed 30 characters'),
+];
 
 const checkPasswordChange = (newPassword: string, meta: Meta): boolean => {
   const {oldPassword} = meta.req.body;
@@ -17,38 +15,13 @@ const checkPasswordChange = (newPassword: string, meta: Meta): boolean => {
 };
 
 export const resetPasswordValidators = [
-  body('oldPassword')
-    .trim()
-    .notEmpty()
-    .withMessage('Password is required')
-    .bail()
-    .isLength({max: 30})
-    .withMessage('Password must not exceed 30 characters')
-    .bail()
-    .isStrongPassword({
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-    .withMessage('Password does not meet the requirements'),
+  trimNotEmpty('oldPassword', 'Old password is required'),
+  maxLength('oldPassword', 30, 'Old password must not exceed 30 characters'),
+  strongPassword('oldPassword', 'old password does not meet the requirements'),
+  trimNotEmpty('newPassword', 'New password is required'),
+  maxLength('newPassword', 30, 'New password must not exceed 30 characters'),
+  strongPassword('newPassword', 'New password does not meet the requirements'),
   body('newPassword')
-    .trim()
-    .notEmpty()
-    .withMessage('Password is required')
-    .bail()
-    .isLength({max: 30})
-    .withMessage('Password must not exceed 30 characters')
-    .bail()
-    .isStrongPassword({
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-    .withMessage('Password does not meet the requirements')
     .custom(checkPasswordChange)
-    .withMessage('The new password must be different'),
+    .withMessage('New password must be different'),
 ];

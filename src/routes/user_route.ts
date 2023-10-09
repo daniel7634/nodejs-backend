@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  profileNameValidator,
+  patchProfileValidators,
   resetPasswordValidators,
 } from '../validators/user_validator';
 import {checkValidatorResult, verifyUser} from './util';
@@ -19,7 +19,7 @@ router.get('/profile', getProfileHandler);
 
 router.patch(
   '/profile',
-  profileNameValidator(),
+  patchProfileValidators,
   checkValidatorResult,
   patchProfileHandler
 );

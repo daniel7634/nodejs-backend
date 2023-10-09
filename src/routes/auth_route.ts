@@ -2,11 +2,9 @@ import express from 'express';
 import passport from 'passport';
 import 'dotenv/config';
 import {
-  registerEmailValidator,
-  registerPasswordValidator,
-  loginEmailValidator,
-  loginPasswordValidator,
   acceptDataValidator,
+  registerValidators,
+  loginValidators,
 } from '../validators/auth_validator';
 import {checkValidatorResult} from './util';
 import {
@@ -32,19 +30,12 @@ router.get(
 
 router.post(
   '/register',
-  registerEmailValidator(),
-  registerPasswordValidator(),
+  registerValidators,
   checkValidatorResult,
   registerHandler
 );
 
-router.post(
-  '/login',
-  loginEmailValidator(),
-  loginPasswordValidator(),
-  checkValidatorResult,
-  loginHandler
-);
+router.post('/login', loginValidators, checkValidatorResult, loginHandler);
 
 router.get(
   '/accept',

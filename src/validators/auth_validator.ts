@@ -1,43 +1,19 @@
 import {body, query} from 'express-validator';
+import {maxLength, strongPassword, trimNotEmpty} from './common_validator';
 
-export const registerEmailValidator = () =>
-  body('email')
-    .trim()
-    .notEmpty()
-    .withMessage('Email address is required')
-    .bail()
-    .isLength({max: 50})
-    .withMessage('Email must not exceed 50 characters')
-    .bail()
-    .isEmail()
-    .withMessage('Not a valid email address');
+export const registerValidators = [
+  trimNotEmpty('email', 'Email address is required'),
+  maxLength('email', 50, 'Email must not exceed 50 characters'),
+  body('email').isEmail().withMessage('Not a valid email address'),
+  trimNotEmpty('password', 'Password is required'),
+  maxLength('password', 30, 'Password must not exceed 30 characters'),
+  strongPassword('password', 'Password does not meet the requirements'),
+];
 
-export const registerPasswordValidator = () =>
-  body('password')
-    .trim()
-    .notEmpty()
-    .withMessage('Password is required')
-    .bail()
-    .isLength({max: 30})
-    .withMessage('Password must not exceed 30 characters')
-    .bail()
-    .isStrongPassword({
-      minLength: 8,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minSymbols: 1,
-    })
-    .withMessage('Password does not meet the requirements');
-
-export const loginEmailValidator = () =>
-  body('email').trim().notEmpty().withMessage('Email address is required');
-
-export const loginPasswordValidator = () =>
-  body('password')
-    .trim()
-    .notEmpty()
-    .withMessage('Password address is required');
+export const loginValidators = [
+  trimNotEmpty('email', 'Email address is required'),
+  trimNotEmpty('password', 'Password is required'),
+];
 
 export const acceptDataValidator = () =>
   query('token').trim().notEmpty().withMessage('Token is required');
