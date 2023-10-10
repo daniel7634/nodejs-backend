@@ -5,7 +5,7 @@ import session from 'express-session';
 const MySQLStore = MySQLStoreFactory(sessionNameSpace);
 const options = {
   host: process.env.DATABASE_HOST,
-  port: parseInt(process.env.DATABASE_PORT as string, 10),
+  port: Number(process.env.DATABASE_PORT),
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
@@ -29,7 +29,7 @@ sessionMySQLStore
     console.error(error);
   });
 
-export default session({
+export const mysqlSession = session({
   secret: process.env.SESSION_SECRET as string,
   store: sessionMySQLStore,
   resave: false,

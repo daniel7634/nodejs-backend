@@ -7,13 +7,11 @@ import {
   usersPaginationHandler,
 } from '../controllers/dashboard_controller';
 
-const router = express.Router();
+export const dashboardRouter = express.Router();
 
-router.use(verifyUser);
+dashboardRouter.use(verifyUser);
 
-router.get('/total-signed-up', totalSignedUpHandler);
-router.get('/total-session-today', totalSessionTodayHandler);
-router.get('/average-session', averageSessionHandler);
-router.get('/users', usersPaginationHandler);
-
-export default router;
+dashboardRouter.get('/total-signed-up', totalSignedUpHandler);
+dashboardRouter.get('/total-session-today', totalSessionTodayHandler);
+dashboardRouter.get('/average-session', averageSessionHandler);
+dashboardRouter.get('/users', usersPaginationHandler);

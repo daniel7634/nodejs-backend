@@ -15,35 +15,33 @@ import {
   resendEmailHandler,
 } from '../controllers/auth_controller';
 
-const router = express.Router();
+export const authRouter = express.Router();
 
-router.get(
+authRouter.get(
   '/google',
   passport.authenticate('google', {scope: ['profile', 'email']})
 );
 
-router.get(
+authRouter.get(
   '/google/callback',
   passport.authenticate('google', {failureRedirect: '/', session: false}),
   googleCallbackHandler
 );
 
-router.post(
+authRouter.post(
   '/register',
   registerValidators,
   checkValidatorResult,
   registerHandler
 );
 
-router.post('/login', loginValidators, checkValidatorResult, loginHandler);
+authRouter.post('/login', loginValidators, checkValidatorResult, loginHandler);
 
-router.get(
+authRouter.get(
   '/accept',
   acceptDataValidator(),
   checkValidatorResult,
   acceptHandler
 );
 
-router.post('/resend-email', resendEmailHandler);
-
-export default router;
+authRouter.post('/resend-email', resendEmailHandler);

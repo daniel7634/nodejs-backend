@@ -15,5 +15,6 @@ export const loginValidators = [
   trimNotEmpty('password', 'Password is required'),
 ];
 
-export const acceptDataValidator = () =>
-  query('token').trim().notEmpty().withMessage('Token is required');
+export function acceptDataValidator() {
+  return query('token').trim().notEmpty().withMessage('Token is required');
+}

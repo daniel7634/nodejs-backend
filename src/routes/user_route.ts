@@ -11,26 +11,24 @@ import {
   resetPasswordHandler,
 } from '../controllers/user_controller';
 
-const router = express.Router();
+export const userRouter = express.Router();
 
-router.use(verifyUser);
+userRouter.use(verifyUser);
 
-router.get('/profile', getProfileHandler);
+userRouter.get('/profile', getProfileHandler);
 
-router.patch(
+userRouter.patch(
   '/profile',
   patchProfileValidators,
   checkValidatorResult,
   patchProfileHandler
 );
 
-router.post(
+userRouter.post(
   '/reset-password',
   resetPasswordValidators,
   checkValidatorResult,
   resetPasswordHandler
 );
 
-router.post('/logout', logoutHandler);
-
-export default router;
+userRouter.post('/logout', logoutHandler);
