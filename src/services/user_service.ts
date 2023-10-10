@@ -37,12 +37,12 @@ export async function resetPassword(
 ) {
   const user = await getUser(email);
   if (!user || !user.password) {
-    throw new RouteError(StatusCodes.BAD_REQUEST, 'Invalid email or password');
+    throw new RouteError(StatusCodes.BAD_REQUEST, 'Invalid user');
   }
 
   const passwordMatch = await bcrypt.compare(oldPassword, user.password);
   if (!passwordMatch) {
-    throw new RouteError(StatusCodes.BAD_REQUEST, 'Invalid email or password');
+    throw new RouteError(StatusCodes.BAD_REQUEST, 'Invalid password');
   }
 
   const saltRounds = 10;
