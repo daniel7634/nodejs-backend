@@ -3,17 +3,14 @@ import bcrypt from 'bcrypt';
 import {StatusCodes} from 'http-status-codes';
 import {User} from '@prisma/client';
 
-import {
-  createUserWithToken,
-  getUser,
-  increaseUserLoginCount,
-} from '../repo/user_repo';
+import {increaseUserLoginCount} from '../repos/user/user_update_repo';
+import {getUser, isUserExist} from '../repos/user/user_read_repo';
+import {createUserWithToken} from '../repos/user/user_create_repo';
 import {sendVerificationEmail} from '../emailer';
 import {RouteError} from '../error';
 
 export async function registerUser(email: string, password: string) {
-  const user = await getUser(email);
-  if (user) {
+  if (await isUserExist(email)) {
     throw new RouteError(StatusCodes.BAD_REQUEST, 'Email already exists');
   }
 

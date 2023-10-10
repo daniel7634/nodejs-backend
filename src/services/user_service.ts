@@ -3,12 +3,14 @@ import bcrypt from 'bcrypt';
 
 import {RouteError} from '../error';
 import {
+  updateUserName,
+  updateUserPassword,
+} from '../repos/user/user_update_repo';
+import {
   UserProfileSelect,
   getUser,
   getUserProfile,
-  updateUserName,
-  updateUserPassword,
-} from '../repo/user_repo';
+} from '../repos/user/user_read_repo';
 
 export async function getProfile(email: string): Promise<UserProfileSelect> {
   const user = await getUserProfile(email);

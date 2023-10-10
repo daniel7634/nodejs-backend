@@ -7,16 +7,16 @@ import {
   setEmailToSession,
 } from '../middlewares/session/util';
 import {
-  acceptRegistration,
-  getRegistrationToken,
+  updateUserVerified,
   increaseUserLoginCount,
-} from '../repo/user_repo';
+} from '../repos/user/user_update_repo';
 import {loginUser, registerUser} from '../services/auth_service';
 import {sendVerificationEmail} from '../emailer';
+import {getRegistrationToken} from '../repos/user_registration_repo';
 
 export async function googleCallbackHandler(req: Request, res: Response) {
   const user = req.user as GoogleStrategy.Profile;
-  if (user.emails) {
+  if (user.emails && user.emails[0].value) {
     const email: string = user.emails[0].value;
     await setEmailToSession(req, email);
     await increaseUserLoginCount(email);
@@ -57,7 +57,7 @@ interface AcceptQueryData {
 export async function acceptHandler(req: Request, res: Response) {
   const queryData: AcceptQueryData = req.query as AcceptQueryData;
   if (queryData.token) {
-    const user = await acceptRegistration(queryData.token);
+    const user = await updateUserVerified(queryData.token);
     if (user) {
       await increaseUserLoginCount(user.email);
       await setEmailToSession(req, user.email);
@@ -72,7 +72,7 @@ export async function resendEmailHandler(req: Request, res: Response) {
   if (email) {
     const token = await getRegistrationToken(email);
     if (token) {
-      await sendVerificationEmail(email, token);
+      sendVerificationEmail(email, token);
     }
     res.json({message: 'Resend email successful'});
   }

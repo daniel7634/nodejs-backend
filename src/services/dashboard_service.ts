@@ -1,5 +1,6 @@
-import {getSessionCountDaysAgo} from '../repo/session_repo';
-import {getUserCount, getUsers} from '../repo/user_repo';
+import {getSessionCountDaysAgo} from '../repos/session_repo';
+import {getUserCount} from '../repos/user/user_read_repo';
+import {getUsers} from '../repos/user/user_read_repo';
 
 export async function getTotalSignedUp(): Promise<number> {
   return await getUserCount();
