@@ -517,8 +517,6 @@
             }),
           });
           const responseJson = await response.json();
-          console.log(response);
-          console.log(responseJson);
           if (response.ok) {
             tabSignUp.style.display = 'none';
             tabResend.style.display = 'flex';
@@ -556,8 +554,6 @@
             }),
           });
           const responseJson = await response.json();
-          console.log(response);
-          console.log(responseJson);
           if (response.ok) {
             if (responseJson.data.isVerified) {
               window.location.replace('/');
@@ -583,8 +579,6 @@
             },
           });
           const responseJson = await response.json();
-          console.log(response);
-          console.log(responseJson);
           if (response.ok) {
             resendBtn.style.display = 'none';
             showSuccessToast(responseJson.message);

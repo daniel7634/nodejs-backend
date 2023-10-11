@@ -301,99 +301,9 @@
             </tr>
           </thead>
           <tbody id="users-tbody" class="u-table-body">
-            <tr style="height: 45px">
-              <td
-                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell"
-              >
-                Row 1
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-            </tr>
-            <tr style="height: 45px">
-              <td
-                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-9"
-              >
-                Row 2
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-            </tr>
-            <tr style="height: 45px">
-              <td
-                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-13"
-              >
-                Row 3
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-            </tr>
-            <tr style="height: 45px">
-              <td
-                class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-17"
-              >
-                Row 4
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-              <td
-                class="u-border-1 u-border-grey-30 u-palette-5-light-3 u-table-cell"
-              >
-                Description
-              </td>
-            </tr>
           </tbody>
         </table>
         <div id="page-link">
-          <a href="#">1</a>
-          <a href="#">2</a>
         </div>
       </div>
 
@@ -537,7 +447,6 @@
         try {
           const response = await fetch(`/dashboard/average-session?day=${day}`);
           const responseJson = await response.json();
-          console.log(responseJson);
           if (response.ok) {
             const data = responseJson.data;
             averageSession.textContent = data.total;
@@ -559,8 +468,6 @@
             },
           });
           const responseJson = await response.json();
-          console.log(response);
-          console.log(responseJson);
           if (response.ok) {
             window.location.replace('/');
           }
