@@ -34,4 +34,9 @@ export const mysqlSession = session({
   store: sessionMySQLStore,
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    signed: true,
+    httpOnly: true,
+    sameSite: 'lax',
+  },
 });
