@@ -61,10 +61,9 @@ export async function acceptHandler(req: Request, res: Response) {
     if (user) {
       await increaseUserLoginCount(user.email);
       await setEmailToSession(req, user.email);
-      return res.redirect('/');
     }
   }
-  return res.json({error: 'Email verification has expired'});
+  return res.redirect('/');
 }
 
 export async function resendEmailHandler(req: Request, res: Response) {
@@ -73,7 +72,11 @@ export async function resendEmailHandler(req: Request, res: Response) {
     const token = await getRegistrationToken(email);
     if (token) {
       sendVerificationEmail(email, token);
+      return res.json({message: 'Resend email successful'});
     }
-    res.json({message: 'Resend email successful'});
+    return res.json({message: 'Email verification has expired'});
   }
+  return res
+    .status(StatusCodes.BAD_REQUEST)
+    .json({error: 'Please login first'});
 }
