@@ -74,7 +74,7 @@ export async function resendEmailHandler(req: Request, res: Response) {
       sendVerificationEmail(email, token);
       return res.json({message: 'Resend email successful'});
     }
-    return res.json({message: 'Email verification has expired'});
+    return res.json({message: 'User is verified'});
   }
   return res
     .status(StatusCodes.BAD_REQUEST)
