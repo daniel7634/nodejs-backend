@@ -1,5 +1,5 @@
-# Backend Exam
-This repository contains a simple application built with TypeScript, Node.js, and Express. The API provides features such as user registration, email verification, login, user profile management, password reset, and user statistics.
+# Introduction
+This repository contains a simple application built with TypeScript, Node.js, and Express. The API provides features such as user registration, email verification, login, user profile management, password reset.
 
 ## Features
 * Sign Up: Users can register using either an email and password or Google OAuth.
@@ -9,4 +9,3 @@ This repository contains a simple application built with TypeScript, Node.js, an
 * Reset Password: Users can change their password by providing the old password and the new one.
 * Cookies and Logout: Users logged in using cookies. A logout feature is also provided.
 * User Database Dashboard: Displays information for all registered users.
-* User Statistics: Displays user statistics on the dashboard.
